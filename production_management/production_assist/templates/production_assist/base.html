@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Production Management App{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "production_assist/css/style.css" %}">
+</head>
+<body>
+{% include 'production_assist/navbar.html' %}
+
+<div class="content">
+{% block content %}
+    <h2>Production Management Assist</h2>
+    <p>App under development</p>
+{% endblock %}
+</div>
+
+<script src="{% static "production_assist/js/jquery-3.3.1.js" %}"></script>
+{% block js %}
+{% endblock %}
+
+{% include 'production_assist/footer.html' %}
+</body>
+</html>
