@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 
 class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    email = models.EmailField()
 
     class Meta:
         ordering = ['name', ]
@@ -19,7 +20,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=16)
 
     class Meta:
         ordering = ['last_name', ]
@@ -48,13 +49,13 @@ class Retail(models.Model):
     name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     material = models.ForeignKey(Material, on_delete=models.PROTECT)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     thickness = models.IntegerField()
     width = models.IntegerField()
     length = models.IntegerField()
-    cutting_length = models.IntegerField()
-    cutting_time = models.IntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    cutting_length = models.IntegerField(null=True, blank=True)
+    cutting_time = models.IntegerField(null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     class Meta:
         ordering = ['company', 'name', 'thickness', ]
@@ -67,10 +68,10 @@ class Retail(models.Model):
 
 
 class Offer(models.Model):
-    number = models.CharField(max_length=7)
+    number = models.CharField(max_length=7, null=True, blank=True)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     person = models.ForeignKey(Person, on_delete=models.PROTECT, null=True)
-    retail = models.ManyToManyField(Retail, null=True)
+    retail = models.ManyToManyField(Retail, through='OfferRetail')
     manufacture = models.BooleanField(default=False)
     final_date = models.DateField()
     create_date = models.DateField(auto_now_add=True)
@@ -79,7 +80,14 @@ class Offer(models.Model):
     class Meta:
         ordering = ['id', ]
 
-    def save(self, *args, **kwargs):
-        self.number = f'{self.id}'.zfill(5)
-        self.number = f'O-{self.number}'
-        super(Offer, self).save(*args, **kwargs)
+    def __str__(self):
+        return f'{self.number}'
+
+
+class OfferRetail(models.Model):
+    offer = models.ForeignKey(Offer, on_delete=models.PROTECT)
+    retail = models.ForeignKey(Retail, on_delete=models.PROTECT)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.offer}  {self.retail.name}'
