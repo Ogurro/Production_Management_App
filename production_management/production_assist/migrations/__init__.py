@@ -56,9 +56,11 @@ def retails():
             obj.name = fake.word()
             obj.description = fake.sentence()
             obj.material = random.choice(material)
-            obj.thickness = random.randint(1, 100)
-            obj.width = random.randint(1, 1000)
-            obj.length = random.randint(obj.width, 2000)
+            obj.thickness = fake.random_int(min=1, max=100)
+            obj.width = fake.random_int(min=10, max=1000)
+            obj.length = fake.random_int(min=10, max=2000)
+            if obj.width > obj.length:
+                obj.width, obj.length = obj.length, obj.width
             obj.save()
     return True
 
@@ -72,8 +74,8 @@ def offers():
             obj.person = random.choice(person)
             obj.manufacture = fake.boolean()
             obj.final_date = fake.date_between_dates(date_start=datetime.date.today(),
-                                                   date_end=datetime.date(2100, 12, 31)
-                                                   )
+                                                     date_end=datetime.date(2100, 12, 31)
+                                                     )
             obj.save()
             obj.number = f'O-{str(obj.id).zfill(5)}'
             obj.save()
@@ -87,7 +89,7 @@ def offerretail():
         retail_set = random.sample(set(retail), random.randint(1, len(retail)))
         for r in retail_set:
             obj = OfferRetail(offer=o, retail=r)
-            obj.quantity = random.randint(1, 1000)
+            obj.quantity = fake.random_int(min=1, max=1000)
             obj.save()
     return True
 
