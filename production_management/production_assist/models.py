@@ -4,7 +4,6 @@ from django.urls import reverse_lazy
 
 class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    email = models.EmailField()
 
     class Meta:
         ordering = ['name', ]
@@ -16,11 +15,21 @@ class Company(models.Model):
         return reverse_lazy('company-detail-view', kwargs={'id': self.id})
 
 
+class CompanyDetails(models.Model):
+    company = models.OneToOneField(Company, on_delete=models.PROTECT)
+    email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=32, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.company.name}: {self.address}'
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
-    phone = models.CharField(max_length=16)
+    phone = models.CharField(max_length=32, null=True, blank=True)
 
     class Meta:
         ordering = ['last_name', ]
@@ -41,9 +50,6 @@ class Material(models.Model):
     def __str__(self):
         return f'{self.type}'
 
-    def get_absolute_url(self):
-        return reverse_lazy('material-detail-view', kwargs={'id': self.id})
-
 
 class Retail(models.Model):
     name = models.CharField(max_length=255)
@@ -55,7 +61,7 @@ class Retail(models.Model):
     length = models.IntegerField()
     cutting_length = models.IntegerField(null=True, blank=True)
     cutting_time = models.IntegerField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
 
     class Meta:
         ordering = ['company', 'name', 'thickness', ]
@@ -68,9 +74,9 @@ class Retail(models.Model):
 
 
 class Offer(models.Model):
-    number = models.CharField(max_length=7, null=True, blank=True)
+    number = models.CharField(max_length=7, null=True)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
-    person = models.ForeignKey(Person, on_delete=models.PROTECT, null=True)
+    person = models.ForeignKey(Person, on_delete=models.PROTECT, null=True, blank=True)
     retail = models.ManyToManyField(Retail, through='OfferRetail')
     manufacture = models.BooleanField(default=False)
     final_date = models.DateField()
