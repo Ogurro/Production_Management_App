@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('production_assist', '0001_initial'),
     ]
@@ -26,13 +25,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='offer',
-            name='number',
-            field=models.CharField(max_length=7, null=True),
-        ),
-        migrations.AlterField(
-            model_name='offer',
             name='person',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='production_assist.Person'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT,
+                                    to='production_assist.Person'),
         ),
         migrations.AlterField(
             model_name='person',

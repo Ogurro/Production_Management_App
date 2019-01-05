@@ -18,7 +18,7 @@ def materials():
 
 
 def companies():
-    for _ in range(4):
+    for _ in range(50):
         name = fake.company()
         Company.objects.create(name=name)
     return True
@@ -38,7 +38,7 @@ def companies_details():
 def persons():
     company = Company.objects.all()
     for c in company:
-        for _ in range(3):
+        for _ in range(10):
             obj = Person(company=c)
             obj.first_name = fake.first_name()
             obj.last_name = fake.last_name()
@@ -51,7 +51,7 @@ def retails():
     company = Company.objects.all()
     material = Material.objects.all()
     for c in company:
-        for _ in range(4):
+        for _ in range(10):
             obj = Retail(company=c)
             obj.name = fake.word()
             obj.description = fake.sentence()
@@ -69,15 +69,13 @@ def offers():
     company = Company.objects.all()
     for c in company:
         person = Person.objects.filter(company=c)
-        for _ in range(3):
+        for _ in range(10):
             obj = Offer(company=c)
             obj.person = random.choice(person)
             obj.manufacture = fake.boolean()
             obj.final_date = fake.date_between_dates(date_start=datetime.date.today(),
                                                      date_end=datetime.date(2100, 12, 31)
                                                      )
-            obj.save()
-            obj.number = f'O-{str(obj.id).zfill(5)}'
             obj.save()
     return True
 

@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -37,12 +36,12 @@ class Migration(migrations.Migration):
             name='Offer',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.CharField(blank=True, max_length=7, null=True)),
                 ('manufacture', models.BooleanField(default=False)),
                 ('final_date', models.DateField()),
                 ('create_date', models.DateField(auto_now_add=True)),
                 ('update_date', models.DateField(auto_now=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
+                ('company',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
             ],
             options={
                 'ordering': ['id'],
@@ -63,7 +62,8 @@ class Migration(migrations.Migration):
                 ('first_name', models.CharField(max_length=255)),
                 ('last_name', models.CharField(max_length=255)),
                 ('phone', models.CharField(max_length=16)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
+                ('company',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
             ],
             options={
                 'ordering': ['last_name'],
@@ -81,8 +81,10 @@ class Migration(migrations.Migration):
                 ('cutting_length', models.IntegerField(blank=True, null=True)),
                 ('cutting_time', models.IntegerField(blank=True, null=True)),
                 ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
-                ('company', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
-                ('material', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Material')),
+                ('company',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Company')),
+                ('material',
+                 models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='production_assist.Material')),
             ],
             options={
                 'ordering': ['company', 'name', 'thickness'],
@@ -96,7 +98,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='offer',
             name='person',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, to='production_assist.Person'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT,
+                                    to='production_assist.Person'),
         ),
         migrations.AddField(
             model_name='offer',

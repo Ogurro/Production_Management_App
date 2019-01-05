@@ -18,9 +18,11 @@ from django.urls import path, re_path
 
 from production_assist.views import (
     HomeView,
+    CompanyListView,
 )
 
 urlpatterns = [
     re_path(r'^$', HomeView.as_view(), name='home-view'),
+    re_path(f'^company/$', CompanyListView.as_view(), name='company-list-view'),
     path('admin/', admin.site.urls),
 ]

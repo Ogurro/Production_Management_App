@@ -1,0 +1,44 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}Company List{% endblock %}
+
+{% block content %}
+    <table class="table table-sm table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Company</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for instnce in object_list %}
+            <tr>
+                <td>{{ instnce }}</td>
+                <td>{{ instnce.companydetails.email }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#    pagination section    #}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

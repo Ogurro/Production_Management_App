@@ -74,7 +74,6 @@ class Retail(models.Model):
 
 
 class Offer(models.Model):
-    number = models.CharField(max_length=7, null=True)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     person = models.ForeignKey(Person, on_delete=models.PROTECT, null=True, blank=True)
     retail = models.ManyToManyField(Retail, through='OfferRetail')
@@ -87,7 +86,7 @@ class Offer(models.Model):
         ordering = ['id', ]
 
     def __str__(self):
-        return f'{self.number}'
+        return f'O-{str(self.id).zfill(6)}'
 
 
 class OfferRetail(models.Model):

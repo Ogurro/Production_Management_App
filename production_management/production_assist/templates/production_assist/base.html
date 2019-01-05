@@ -3,20 +3,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Production Management App{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static "production_assist/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "production_assist/css/bootstrap.css" %}">
 </head>
 <body>
-{% include 'production_assist/navbar.html' %}
+<div class="container-fluid">
+    {% include 'production_assist/navbar.html' %}
 
-<div class="content">
-{% block content %}
-    <h2>Production Management Assist</h2>
-    <p>App under development</p>
-{% endblock %}
+    <div class="container mt-3">
+        {% block content %}
+            <h2>Production Management Assist</h2>
+            <p>App under development</p>
+        {% endblock %}
+    </div>
+
 </div>
-
 <script src="{% static "production_assist/js/jquery-3.3.1.js" %}"></script>
+<script src="{% static "production_assist/js/bootstrap.js" %}"></script>
 {% block js %}
 {% endblock %}
 
