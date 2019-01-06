@@ -11,14 +11,17 @@
 <div class="container-fluid">
     {% include 'production_assist/navbar.html' %}
 
+
     <div class="container mt-3">
+        {% include 'production_assist/messages.html' %}
+
         {% block content %}
             <h2>Production Management Assist</h2>
             <p>App under development</p>
         {% endblock %}
     </div>
-
 </div>
+
 <script src="{% static "production_assist/js/jquery-3.3.1.js" %}"></script>
 <script src="{% static "production_assist/js/bootstrap.js" %}"></script>
 {% block js %}
