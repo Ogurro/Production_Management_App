@@ -22,7 +22,23 @@ from .models import (
 )
 
 
-# Create your views here.
+def get_page_range(page_number, page_end):
+    """
+    Prepares range context for pagination in template
+    :param page_number: actual page number of None
+    :param page_end: maximum number of pages by default should be *context['page_obj'].paginator.num_pages + 1*
+    :return: range(page_start, page_end), length of 10 if possible
+    """
+    try:
+        page_number = int(page_number)
+    except TypeError:
+        page_number = 1
+    page_start = page_number - 4 if page_number > 5 else 1
+    if page_end >= 10 and page_start == 1:
+        page_end = 10
+    elif page_end > 10:
+        page_end = page_number + 5 if page_number + 5 <= page_end else page_end
+    return range(page_start, page_end)
 
 
 class HomeView(View):
@@ -52,4 +68,11 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 class CompanyListView(ListView):
     template_name = 'production_assist/company-detail-view.html'
     queryset = Company.objects.all()
-    paginate_by = 25
+    paginate_by = 15
+
+    def get_context_data(self, *, object_list=queryset, **kwargs):
+        context = super(CompanyListView, self).get_context_data()
+        page_number = self.request.GET.get('page')
+        page_end = context['page_obj'].paginator.num_pages + 1
+        context['page_range'] = get_page_range(page_number, page_end)
+        return context

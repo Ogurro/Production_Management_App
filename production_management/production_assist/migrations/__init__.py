@@ -28,9 +28,9 @@ def companies_details():
     company = Company.objects.all()
     for c in company:
         obj = CompanyDetails(company=c)
-        obj.email = fake.address()
+        obj.email = fake.email()
         obj.phone = fake.phone_number()
-        obj.address = fake.email()
+        obj.address = fake.address()
         obj.save()
     return True
 
