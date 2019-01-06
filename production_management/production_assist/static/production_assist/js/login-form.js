@@ -9,6 +9,6 @@ $(document).ready(function () {
         }
         element.setAttribute('placeholder', name);
     });
-    form_p_input.wrap('<div class="col-sm-10 col-lg-3 d-inline-block"></div>');
+    form_p_input.wrap('<div class="col-sm-10 col-lg-3 input-group-lg d-inline-block"></div>');
     form_p.children('label').addClass('col-form-label');
 });
