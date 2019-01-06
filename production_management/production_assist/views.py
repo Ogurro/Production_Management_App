@@ -78,7 +78,7 @@ class CompanyListView(ListView):
         return context
 
 
-class CompanyDetailView(DeleteView):
+class CompanyDetailView(DetailView):
     template_name = 'production_assist/company-detail-view.html'
     queryset = Company.objects.all()
 
