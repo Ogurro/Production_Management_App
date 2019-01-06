@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -66,7 +66,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 
 
 class CompanyListView(ListView):
-    template_name = 'production_assist/company-detail-view.html'
+    template_name = 'production_assist/company-list-view.html'
     queryset = Company.objects.all()
     paginate_by = 15
 
@@ -76,3 +76,12 @@ class CompanyListView(ListView):
         page_end = context['page_obj'].paginator.num_pages + 1
         context['page_range'] = get_page_range(page_number, page_end)
         return context
+
+
+class CompanyDetailView(DeleteView):
+    template_name = 'production_assist/company-detail-view.html'
+    queryset = Company.objects.all()
+
+    def get_object(self, queryset=queryset):
+        id_ = self.kwargs.get('id')
+        return get_object_or_404(Company, id=id_)

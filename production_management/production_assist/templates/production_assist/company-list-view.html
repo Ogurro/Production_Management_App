@@ -1,0 +1,33 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}Company List{% endblock %}
+
+{% block content %}
+    <h2>Companies</h2>
+    {% for obj in object_list %}
+        <div class="mb-3">
+            <ol id="ol-{{ forloop.counter0 }}" class="list-group list-group-flush col-lg-5">
+                <li class="list-group-item">{{ obj.name }}</li>
+                <li class="list-group-item ml-4 d-none disabled">
+                    <strong>Address: </strong>{{ obj.companydetails.address }}</li>
+                <li class="list-group-item ml-4 d-none disabled">
+                    <strong>Phone: </strong>{{ obj.companydetails.phone }}</li>
+                <li class="list-group-item ml-4 d-none disabled">
+                    <strong>Email: </strong>{{ obj.companydetails.email }}</li>
+                <li class="list-group-item d-none">
+                    <input class="btn btn-dark ml-4" type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
+                           value="More info"/>
+                </li>
+            </ol>
+        </div>
+    {% endfor %}
+
+    {#    pagination section    #}
+    {% if is_paginated %}
+        {% include 'production_assist/pagination.html' %}
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+    {% include 'production_assist/list-js.html' %}
+{% endblock %}

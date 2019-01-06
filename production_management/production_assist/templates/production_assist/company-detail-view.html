@@ -3,29 +3,10 @@
 {% block title %}Company List{% endblock %}
 
 {% block content %}
-    <table class="table table-sm table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>Company</th>
-            <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for instnce in object_list %}
-            <tr>
-                <td>{{ instnce }}</td>
-                <td>{{ instnce.companydetails.email }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    {#    pagination section    #}
-    {% if is_paginated %}
-       {% include 'production_assist/pagination.html' %}
-    {% endif %}
-
-
+    <h2>Company</h2>
+    <div class="mb-3">
+        {{ object.id }}&emsp;{{ object.name }}
+    </div>
 {% endblock %}
 
 {% block js %}
