@@ -1,6 +1,18 @@
 from django.db import models
 from django.urls import reverse_lazy
 
+OFFER_STATUS = (
+    (0, 'Registered'),
+    (1, 'Project'),
+    (2, 'Pricing'),
+    (3, 'Production'),
+    (4, 'Tooling'),
+    (5, 'Ready to receive'),
+    (6, 'Finished'),
+    (7, 'On hold'),
+    (8, 'Reclamation'),
+)
+
 
 class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -81,6 +93,7 @@ class Offer(models.Model):
     final_date = models.DateField()
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
+    status = models.IntegerField(choices=OFFER_STATUS, default=1)
 
     class Meta:
         ordering = ['id', ]

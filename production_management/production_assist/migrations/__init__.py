@@ -76,6 +76,7 @@ def offers():
             obj.final_date = fake.date_between_dates(date_start=datetime.date.today(),
                                                      date_end=datetime.date(2100, 12, 31)
                                                      )
+            obj.status = fake.random_int(min=1, max=8)
             obj.save()
     return True
 

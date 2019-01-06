@@ -7,7 +7,7 @@ from . import populate
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('production_assist', '0002_auto_20181231_0934'),
+        ('production_assist', '0004_offer_status'),
     ]
 
     operations = [
