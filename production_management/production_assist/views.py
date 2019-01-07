@@ -68,7 +68,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 class CompanyListView(ListView):
     template_name = 'production_assist/company-list-view.html'
     queryset = Company.objects.all()
-    paginate_by = 4
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=queryset, **kwargs):
         context = super(CompanyListView, self).get_context_data()
