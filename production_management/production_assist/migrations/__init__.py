@@ -93,6 +93,14 @@ def offerretail():
     return True
 
 
+def add_person_email_position():
+    person = Person.objects.all()
+    for p in person:
+        p.email = fake.email()
+        p.position = fake.job()
+        p.save()
+
+
 def populate(*args, **kwargs):
     materials()
     companies()
@@ -101,3 +109,6 @@ def populate(*args, **kwargs):
     retails()
     offers()
     offerretail()
+    add_person_email_position()
+
+

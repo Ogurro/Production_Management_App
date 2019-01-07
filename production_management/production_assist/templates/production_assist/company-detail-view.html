@@ -3,11 +3,32 @@
 {% block title %}Company List{% endblock %}
 
 {% block content %}
-    <h2>Company</h2>
-    <div class="mb-3">
-        {{ object.id }}&emsp;{{ object.name }}
+    <span class="h2 pull-left">Company</span>
+    <input class="btn btn-dark mb-2 d-inline" type="button" value="Edit"/>
+    <div class="mt-2 mb-3">
+        <p><strong>Name: </strong>{{ object.name }}</p>
+        <p><strong>Address: </strong>{{ object.companydetails.address }}</p>
+        <p><strong>Email: </strong>{{ object.companydetails.email }}</p>
+        <p id="personnel" class="mb-3"><strong>Personnel</strong></p>
+        <div class="container-fluid mt-0 d-none">
+            {% for person in object.person_set.all %}
+                <div class="mb-3">
+                    <ol class="list-group list-group-flush col-lg-7">
+                        <li class="list-group-item"><strong>{{ person }}</strong></li>
+                        <li class="list-group-item ml-4 disabled d-none"><strong>Position: </strong>
+                            {% if person.position %}{{ person.position }}{% else %} ---- {% endif %}</li>
+                        <li class="list-group-item ml-4 disabled d-none"><strong>Phone: </strong>
+                            {% if person.phone %}{{ person.phone }}{% else %} ---- {% endif %}</li>
+                        <li class="list-group-item ml-4 disabled d-none"><strong>Email: </strong>
+                            {% if person.email %}{{ person.email }}{% else %} ---- {% endif %}</li>
+                    </ol>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
 
 {% block js %}
+    {% include 'production_assist/list-show-siblings-js.html' %}
+    {% include 'production_assist/company-detail-js.html' %}
 {% endblock %}

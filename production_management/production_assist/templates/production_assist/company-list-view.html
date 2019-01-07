@@ -5,17 +5,17 @@
 {% block content %}
     <h2>Companies</h2>
     {% for obj in object_list %}
-        <div class="mb-3">
-            <ol id="ol-{{ forloop.counter0 }}" class="list-group list-group-flush col-lg-5">
-                <li class="list-group-item">{{ obj.name }}</li>
+        <div class="mt-3 mb-3">
+            <ol class="list-unstyled list-group list-group-flush col-lg-7 list-">
+                <li class="list-group-item"><strong>{{ obj.name }}</strong></li>
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Address: </strong>{{ obj.companydetails.address }}</li>
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Phone: </strong>{{ obj.companydetails.phone }}</li>
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Email: </strong>{{ obj.companydetails.email }}</li>
-                <li class="list-group-item d-none">
-                    <input class="btn btn-dark ml-4" type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
+                <li class="ml-4 d-none">
+                    <input class="btn btn-dark" type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
                            value="More info"/>
                 </li>
             </ol>
@@ -29,5 +29,5 @@
 {% endblock %}
 
 {% block js %}
-    {% include 'production_assist/list-js.html' %}
+    {% include 'production_assist/list-show-siblings-js.html' %}
 {% endblock %}

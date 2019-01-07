@@ -42,6 +42,8 @@ class Person(models.Model):
     last_name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     phone = models.CharField(max_length=32, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    position = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         ordering = ['last_name', ]

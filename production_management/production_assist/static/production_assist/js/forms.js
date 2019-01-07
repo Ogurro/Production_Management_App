@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log('ready');
     let form_p = $('form p').addClass("form-group");
     let form_p_input = form_p.children('input').addClass('form-control');
     [].forEach.call(form_p_input, function (element) {
