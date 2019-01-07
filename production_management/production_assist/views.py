@@ -29,13 +29,13 @@ def get_page_range(request, context):
         page_number = int(page_number)
     except TypeError:
         page_number = 1
-    page_start = page_number - 4 if page_number > 5 else 1
-    if page_end >= 10 and page_start == 1:
-        page_end = 10
-    elif page_end > 10:
-        page_end = page_number + 5 if page_number + 5 <= page_end else page_end
-    if page_end - page_start < 9:
-        page_start = page_end - 9
+    page_start = page_number - 3 if page_number > 4 else 1
+    if page_end >= 8 and page_start == 1:
+        page_end = 8
+    elif page_end > 8:
+        page_end = page_number + 4 if page_number + 4 <= page_end else page_end
+    if page_end - page_start < 7:
+        page_start = page_end - 7
     return range(page_start, page_end)
 
 
@@ -66,8 +66,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 class CompanyListView(ListView):
     template_name = 'production_assist/company-list-view.html'
     queryset = Company.objects.all()
-    # paginate_by = 15
-    paginate_by = 1
+    paginate_by = 15
 
     def get_context_data(self, *, object_list=queryset, **kwargs):
         context = super(CompanyListView, self).get_context_data()
