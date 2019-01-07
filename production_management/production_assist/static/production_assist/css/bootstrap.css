@@ -5108,6 +5108,11 @@ input[type="button"].btn-block {
     border: 1px solid #dee2e6;
 }
 
+.page-link-custom {
+    width: 45px;
+    text-align: center !important;
+}
+
 .page-link:hover {
     z-index: 2;
     color: #0056b3;

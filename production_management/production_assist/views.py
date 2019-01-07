@@ -22,13 +22,9 @@ from .models import (
 )
 
 
-def get_page_range(page_number, page_end):
-    """
-    Prepares range context for pagination in template
-    :param page_number: actual page number of None
-    :param page_end: maximum number of pages by default should be *context['page_obj'].paginator.num_pages + 1*
-    :return: range(page_start, page_end), length of 10 if possible
-    """
+def get_page_range(request, context):
+    page_number = request.GET.get('page')
+    page_end = context['page_obj'].paginator.num_pages + 1
     try:
         page_number = int(page_number)
     except TypeError:
@@ -38,6 +34,8 @@ def get_page_range(page_number, page_end):
         page_end = 10
     elif page_end > 10:
         page_end = page_number + 5 if page_number + 5 <= page_end else page_end
+    if page_end - page_start < 9:
+        page_start = page_end - 9
     return range(page_start, page_end)
 
 
@@ -68,13 +66,12 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 class CompanyListView(ListView):
     template_name = 'production_assist/company-list-view.html'
     queryset = Company.objects.all()
-    paginate_by = 15
+    # paginate_by = 15
+    paginate_by = 1
 
     def get_context_data(self, *, object_list=queryset, **kwargs):
         context = super(CompanyListView, self).get_context_data()
-        page_number = self.request.GET.get('page')
-        page_end = context['page_obj'].paginator.num_pages + 1
-        context['page_range'] = get_page_range(page_number, page_end)
+        context['page_range'] = get_page_range(self.request, context)
         return context
 
 

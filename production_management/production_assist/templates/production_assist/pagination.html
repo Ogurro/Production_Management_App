@@ -6,17 +6,31 @@
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
             </li>{% else %}
             <li class="page-item disabled"><a class="page-link">Previous</a></li>{% endif %}
+        {% if page_range|first > 1 %}
+            <li class="page-item"><a class="page-link page-link-custom" href="?page=1">1</a></li>
+        {% endif %}
+        {% if page_range|first > 2 %}
+            <li class="page-item disabled"><a class="page-link page-link-custom">...</a></li>
+        {% endif %}
 
         {#         pages normal        #}
         {% for page in page_range %}
-                {% if request.GET.page ==  page|stringformat:'i' or request.GET.page == None and page == 1 %}
-                    <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-                {% else %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-                {% endif %}
+            {% if request.GET.page ==  page|stringformat:'i' or request.GET.page == None and page == 1 %}
+                <li class="page-item active"><a class="page-link page-link-custom" href="?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link page-link-custom" href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
         {% endfor %}
 
         {#        next page        #}
+        {% if page_range|last|add:1 < page_obj.paginator.num_pages %}
+            <li class="page-item disabled"><a class="page-link page-link-custom">...</a></li>
+        {% endif %}
+        {% if page_range|last != page_obj.paginator.num_pages %}
+            <li class="page-item"><a class="page-link page-link-custom"
+                                     href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+            </li>
+        {% endif %}
         {% if page_obj.has_next %}
             <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
             </li>{% else %}
