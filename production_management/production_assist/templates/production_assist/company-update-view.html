@@ -1,0 +1,19 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}Edit Company{% endblock %}
+
+{% block content %}
+    <span class="h2">Edit Company</span>
+    <div class="mt-2 mb-3">
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark d-inline">Save</button>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% include 'production_assist/form-js.html' %}
+{% endblock %}

@@ -29,9 +29,9 @@ class Company(models.Model):
 
 class CompanyDetails(models.Model):
     company = models.OneToOneField(Company, on_delete=models.PROTECT)
-    email = models.EmailField(null=True, blank=True)
-    phone = models.CharField(max_length=32, null=True, blank=True)
-    address = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(blank=True, default='')
+    phone = models.CharField(max_length=32, blank=True, default='')
+    address = models.CharField(max_length=255, blank=True, default='')
 
     def __str__(self):
         return f'{self.company.name}: {self.address}'

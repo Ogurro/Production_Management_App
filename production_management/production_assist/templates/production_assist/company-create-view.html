@@ -1,0 +1,20 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}Create Company{% endblock %}
+
+{% block content %}
+    <span class="h2">Create Company</span>
+    <div class="mt-2 mb-3">
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark d-inline" name="save" value="add">Save and add details</button>
+            <button type="submit" class="btn btn-dark disabled d-inline" name="save" value="save">Save</button>
+
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% include 'production_assist/form-js.html' %}
+{% endblock %}

@@ -23,6 +23,8 @@ from production_assist.views import (
     LogoutView,
     CompanyListView,
     CompanyDetailView,
+    CompanyCreateView,
+    CompanyUpdateView,
 )
 
 if settings.DEBUG:
@@ -32,6 +34,8 @@ urlpatterns = [
     re_path(r'^$', HomeView.as_view(), name='home-view'),
     re_path(r'^company/$', CompanyListView.as_view(), name='company-list-view'),
     re_path(r'^company/(?P<id>(\d)+)/$', CompanyDetailView.as_view(), name='company-detail-view'),
+    re_path(r'^company/add/$', CompanyCreateView.as_view(), name='company-create-view'),
+    re_path(r'^company/edit/(?P<id>(\d)+)/$', CompanyUpdateView.as_view(), name='company-update-view'),
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),
     re_path(r'^logout/$', LogoutView.as_view(), name='logout-view'),
     re_path(r'^admin/', admin.site.urls),

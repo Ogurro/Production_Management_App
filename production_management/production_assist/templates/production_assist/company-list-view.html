@@ -3,7 +3,9 @@
 {% block title %}Company List{% endblock %}
 
 {% block content %}
-    <h2>Companies</h2>
+    <span class="h2 pull-left">Companies</span>
+    <input class="btn btn-dark mb-2 d-inline" type="button"
+           onclick="location.href='{% url 'company-create-view' %}'" value="Add"/>
     {% for obj in object_list %}
         <div class="mt-3 mb-3">
             <ol class="list-unstyled list-group list-group-flush col-lg-7 list-">

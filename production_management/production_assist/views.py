@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -19,6 +19,11 @@ from .models import (
     Retail,
     Offer,
     OfferRetail
+)
+
+from .forms import (
+    CompanyCreateForm,
+    CompanyUpdateForm,
 )
 
 
@@ -83,3 +88,48 @@ class CompanyDetailView(DetailView):
     def get_object(self, queryset=queryset):
         id_ = self.kwargs.get('id')
         return get_object_or_404(Company, id=id_)
+
+
+class CompanyCreateView(CreateView):
+    template_name = 'production_assist/company-create-view.html'
+    form_class = CompanyCreateForm
+
+    def form_valid(self, form):
+        company = form.save()
+        CompanyDetails.objects.create(company=company)
+        submit = self.request.POST.get('save')
+        if submit == 'save':
+            return redirect(company.get_absolute_url())
+        else:
+            # TODO make additional info addition
+            return redirect(company.get_absolute_url())
+
+
+class CompanyUpdateView(UpdateView):
+    template_name = 'production_assist/company-update-view.html'
+    form_class = CompanyUpdateForm
+    queryset = Company.objects.all()
+
+    def get_object(self, queryset=queryset):
+        id_ = self.kwargs.get('id')
+        return get_object_or_404(Company, id=id_)
+
+    def get_initial(self):
+        initial = super(CompanyUpdateView, self).get_initial()
+        company_details = CompanyDetails.objects.get(company=self.get_object())
+        initial['address'] = company_details.address
+        initial['phone'] = company_details.phone
+        initial['email'] = company_details.email
+        return initial
+
+    def form_valid(self, form):
+        email = form.cleaned_data.pop('email')
+        phone = form.cleaned_data.pop('phone')
+        address = form.cleaned_data.pop('address')
+        company = form.save()
+        company_details = CompanyDetails.objects.get(company=company)
+        company_details.address = address
+        company_details.phone = phone
+        company_details.email = email
+        company_details.save()
+        return redirect(company.get_absolute_url())

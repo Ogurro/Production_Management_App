@@ -8,6 +8,6 @@ $(document).ready(function () {
         }
         element.setAttribute('placeholder', name);
     });
-    form_p_input.wrap('<div class="col-sm-10 col-lg-3 input-group-lg d-inline-flex"></div>');
-    form_p.children('label').addClass('col-form-label col-lg-1 pl-0');
+    form_p_input.wrap('<div class=" col-sm-10 col-lg-4 input-group-lg d-inline-flex"></div>');
+    form_p.children('label').addClass('lead font-weight-bold');
 });
