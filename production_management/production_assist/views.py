@@ -101,8 +101,7 @@ class CompanyCreateView(CreateView):
         if submit == 'save':
             return redirect(company.get_absolute_url())
         else:
-            # TODO make additional info addition
-            return redirect(company.get_absolute_url())
+            return redirect('company-update-view', id=company.id)
 
 
 class CompanyUpdateView(UpdateView):
