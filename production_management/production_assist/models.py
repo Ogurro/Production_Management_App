@@ -69,13 +69,14 @@ class Retail(models.Model):
     name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
     material = models.ForeignKey(Material, on_delete=models.PROTECT)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(blank=True, default='')
     thickness = models.IntegerField()
     width = models.IntegerField()
     length = models.IntegerField()
-    cutting_length = models.IntegerField(null=True, blank=True)
-    cutting_time = models.IntegerField(null=True, blank=True)
-    price = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
+    cutting_length = models.IntegerField(blank=True, default=0)
+    cutting_time = models.IntegerField(blank=True, default=0)
+    drawing_number = models.CharField(max_length=255, blank=True, default='')
+    price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, default=0)
 
     class Meta:
         ordering = ['company', 'name', 'thickness', ]

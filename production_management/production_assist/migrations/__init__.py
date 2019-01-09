@@ -59,6 +59,7 @@ def retails():
             obj.thickness = fake.random_int(min=1, max=100)
             obj.width = fake.random_int(min=10, max=1000)
             obj.length = fake.random_int(min=10, max=2000)
+            obj.drawing_number = fake.random_int(min=10000, max=1000000)
             if obj.width > obj.length:
                 obj.width, obj.length = obj.length, obj.width
             obj.save()

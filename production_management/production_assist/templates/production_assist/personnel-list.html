@@ -1,0 +1,21 @@
+<div class="container mt-0 d-none">
+    {% if object.person_set.all %}
+        {% for person in object.person_set.all %}
+            <div class="mb-3">
+                <ol class="list-group list-group-flush col-lg-auto">
+                    <li class="list-group-item"><strong>{{ person }}</strong></li>
+                    <li class="list-group-item ml-4 disabled d-none"><strong>Position: </strong>
+                        {% if person.position %}{{ person.position }}{% else %} ---- {% endif %}
+                    </li>
+                    <li class="list-group-item ml-4 disabled d-none"><strong>Phone: </strong>
+                        {% if person.phone %}{{ person.phone }}{% else %} ---- {% endif %}</li>
+                    <li class="list-group-item ml-4 disabled d-none"><strong>Email: </strong>
+                        {% if person.email %}{{ person.email }}{% else %} ---- {% endif %}</li>
+                </ol>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="ml-3"> #TO DO ADD BUTTONS! </p>
+        {#      TODO ADD BUTTONS      #}
+    {% endif %}
+</div>
