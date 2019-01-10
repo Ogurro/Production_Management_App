@@ -42,7 +42,7 @@ urlpatterns = [
     re_path(r'^company/add/$', CompanyCreateView.as_view(), name='company-create-view'),
     re_path(r'^company/edit/(?P<id_company>(\d)+)/$', CompanyUpdateView.as_view(), name='company-update-view'),
     re_path(r'^person/$', PersonListView.as_view(), name='person-list-view'),
-    re_path(r'^person/(?P<id_person>(\d)+)$', PersonDetailView.as_view(), name='person-detail-view'),
+    re_path(r'^person/(?P<id_person>(\d)+)/$', PersonDetailView.as_view(), name='person-detail-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/person/$',
             CompanyPersonListView.as_view(), name='company-person-list-view'),
     re_path(r'^person/add/$', PersonCreateView.as_view(), name='person-create-view'),

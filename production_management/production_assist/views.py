@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
@@ -97,6 +98,7 @@ class CompanyCreateView(CreateView):
         company = form.save()
         CompanyDetails.objects.create(company=company)
         submit = self.request.POST.get('save')
+        messages.success(self.request, f'Added company {company}')
         if submit == 'save':
             return redirect(company.get_absolute_url())
         else:
@@ -130,6 +132,7 @@ class CompanyUpdateView(UpdateView):
         company_details.phone = phone
         company_details.email = email
         company_details.save()
+        messages.success(self.request, f'Updated company {company}')
         return redirect(company.get_absolute_url())
 
 
@@ -153,6 +156,11 @@ class PersonCreateView(CreateView):
     template_name = 'production_assist/person-create-view.html'
     form_class = PersonCreateForm
 
+    def form_valid(self, form):
+        person = form.save()
+        messages.success(self.request, f'Added person {person} to company {person.company}')
+        return redirect(person.get_absolute_url())
+
 
 class PersonUpdateView(UpdateView):
     template_name = 'production_assist/person-create-view.html'
@@ -162,6 +170,11 @@ class PersonUpdateView(UpdateView):
     def get_object(self, queryset=queryset):
         id_person = self.kwargs.get('id_person')
         return get_object_or_404(Person, id=id_person)
+
+    def form_valid(self, form):
+        person = form.save()
+        messages.success(self.request, f'Updated person {person}')
+        return redirect(person.get_absolute_url())
 
 
 class CompanyPersonListView(PaginatedListView):
