@@ -1,6 +1,6 @@
 {% extends 'production_assist/base.html' %}
 
-{% block title %}Company List{% endblock %}
+{% block title %}Company Details{% endblock %}
 
 {% block content %}
     <span class="h2 pull-left">Company</span>
@@ -16,12 +16,12 @@
             <div class="row">
                 {#      personell section      #}
                 <div class="col-md-6">
-                    <p id="personnel" class="mb-3"><strong>Personnel</strong></p>
+                    <button id="personnel" class="btn btn-light font-weight-bold mb-3">Personnel</button>
                     {% include 'production_assist/personnel-list.html' %}
                 </div>
                 {#      retail section      #}
                 <div class="col-md-6">
-                    <p id="retail" class="mb-3"><strong>Retail</strong></p>
+                    <button id="retail" class="btn btn-light font-weight-bold mb-3">Retail</button>
                     {% include 'production_assist/retail-list.html' %}
                 </div>
             </div>

@@ -24,7 +24,7 @@ class Company(models.Model):
         return f'{self.name}'
 
     def get_absolute_url(self):
-        return reverse_lazy('company-detail-view', kwargs={'id': self.id})
+        return reverse_lazy('company-detail-view', kwargs={'id_company': self.id})
 
 
 class CompanyDetails(models.Model):
@@ -41,18 +41,18 @@ class Person(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     company = models.ForeignKey(Company, on_delete=models.PROTECT)
-    phone = models.CharField(max_length=32, null=True, blank=True)
-    email = models.EmailField(null=True, blank=True)
-    position = models.CharField(max_length=255, null=True, blank=True)
+    phone = models.CharField(max_length=32, blank=True, default='')
+    email = models.EmailField(blank=True, default='')
+    position = models.CharField(max_length=255, blank=True, default='')
 
     class Meta:
-        ordering = ['last_name', ]
+        ordering = ['last_name', 'company']
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
-        return reverse_lazy('person-detail-view', kwargs={'id': self.id})
+        return reverse_lazy('person-detail-view', kwargs={'id_person': self.id})
 
 
 class Material(models.Model):
@@ -85,7 +85,7 @@ class Retail(models.Model):
         return f'{self.name} #{self.thickness} {self.width}x{self.length}'
 
     def get_absolute_url(self):
-        return reverse_lazy('retail-detail-view', kwargs={'id': self.id})
+        return reverse_lazy('retail-detail-view', kwargs={'id_retail': self.id})
 
 
 class Offer(models.Model):
@@ -112,3 +112,6 @@ class OfferRetail(models.Model):
 
     def __str__(self):
         return f'{self.offer}  {self.retail.name}'
+
+    def get_absolute_url(self):
+        return reverse_lazy('offer-detail-view', kwargs={'id_offer': self.id})

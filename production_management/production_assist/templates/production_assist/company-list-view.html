@@ -8,7 +8,7 @@
            onclick="location.href='{% url 'company-create-view' %}'" value="Add"/>
     {% for obj in object_list %}
         <div class="mt-3 mb-3">
-            <ol class="list-unstyled list-group list-group-flush col-lg-7 list-">
+            <ol class="list-unstyled list-group list-group-flush col-lg-7">
                 <li class="list-group-item"><strong>{{ obj.name }}</strong></li>
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Address: </strong>{{ obj.companydetails.address }}</li>
@@ -17,17 +17,20 @@
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Email: </strong>{{ obj.companydetails.email }}</li>
                 <li class="ml-4 d-none">
-                    <input class="btn btn-dark" type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
-                           value="More info"/>
+                    <ul class="list-inline">
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark" type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
+                                   value="More info"/>
+                        </li>
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark list-inline-item" type="button"
+                                   onclick="location.href='{% url 'company-person-list-view' obj.id %}'" value="Personnel"/>
+                        </li>
+                    </ul>
                 </li>
             </ol>
         </div>
     {% endfor %}
-
-    {#    pagination section    #}
-    {% if is_paginated %}
-        {% include 'production_assist/pagination.html' %}
-    {% endif %}
 {% endblock %}
 
 {% block js %}
