@@ -3,9 +3,29 @@ from django import forms
 from .models import (
     Company,
     Person,
+    Retail,
 )
 
 
+class PhoneEmailValidCreateForm(forms.ModelForm):
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if phone != '':
+            regex = r'^(\+(\d){1,3}\s?)?((\d){3}\s?(\d){3}\s?(\d){3}$|(\d){2}\s?(\d){3}\s?(\d){2}\s?(\d){2})$'
+            if not re.fullmatch(regex, phone):
+                raise forms.ValidationError('Wrong format, try xxx xxx xxx or xx xxx xx xx')
+        return phone
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if email != '':
+            regex = r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{1,})*\.([a-zA-Z]{2,}){1}$'
+            if not re.fullmatch(regex, email):
+                raise forms.ValidationError('Wrong email format')
+        return email
+
+
+# COMPANY
 class CompanyCreateForm(forms.ModelForm):
     name = forms.CharField(label='Company Name')
 
@@ -16,7 +36,7 @@ class CompanyCreateForm(forms.ModelForm):
         ]
 
 
-class CompanyUpdateForm(forms.ModelForm):
+class CompanyUpdateForm(PhoneEmailValidCreateForm):
     name = forms.CharField(label='Company Name')
     email = forms.CharField(label='Email', required=False, )
     phone = forms.CharField(label='Phone', required=False)
@@ -31,24 +51,9 @@ class CompanyUpdateForm(forms.ModelForm):
             'email',
         ]
 
-    def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        if phone != '':
-            regex = r'^(\+(\d){1,3}\s?)?((\d){3}\s?(\d){3}\s?(\d){3}$|(\d){2}\s?(\d){3}\s?(\d){2}\s?(\d){2})$'
-            if not re.fullmatch(regex, phone):
-                raise forms.ValidationError('Wrong format, try xxx xxx xxx or xx xxx xx xx')
-        return phone
 
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if email != '':
-            regex = r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{1,})*\.([a-zA-Z]{2,}){1}$'
-            if not re.fullmatch(regex, email):
-                raise forms.ValidationError('Wrong email format')
-        return email
-
-
-class PersonCreateForm(forms.ModelForm):
+# PERSON
+class PersonCreateForm(PhoneEmailValidCreateForm):
     class Meta:
         model = Person
         fields = [
@@ -59,34 +64,41 @@ class PersonCreateForm(forms.ModelForm):
             'email',
             'position',
         ]
-
-    def clean_phone(self):
-        phone = self.cleaned_data['phone']
-        if phone != '':
-            regex = r'^(\+(\d){1,3}\s?)?((\d){3}\s?(\d){3}\s?(\d){3}$|(\d){2}\s?(\d){3}\s?(\d){2}\s?(\d){2})$'
-            if not re.fullmatch(regex, phone):
-                raise forms.ValidationError('Wrong format, try xxx xxx xxx or xx xxx xx xx')
-        return phone
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if email != '':
-            regex = r'^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{1,})*\.([a-zA-Z]{2,}){1}$'
-            if not re.fullmatch(regex, email):
-                raise forms.ValidationError('Wrong email format')
-        return email
 
 
 class CompanyPersonCreateForm(PersonCreateForm):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
 
+
+class RetailCreateForm(forms.ModelForm):
+    drawing_number = forms.CharField(required=False)
+    cutting_length = forms.IntegerField(required=False)
+    cutting_time = forms.IntegerField(required=False)
+    price = forms.DecimalField(required=False)
+
     class Meta:
-        model = Person
+        model = Retail
         fields = [
             'company',
-            'first_name',
-            'last_name',
-            'phone',
-            'email',
-            'position',
+            'name',
+            'drawing_number',
+            'material',
+            'thickness',
+            'width',
+            'length',
+            'cutting_length',
+            'cutting_time',
+            'price',
         ]
+
+    def clean(self):
+        data = self.cleaned_data
+        if data['width'] > data['length']:
+            data['width'], data['length'] = data['length'], data['width']
+        if not data['cutting_length']:
+            data['cutting_length'] = 0
+        if not data['cutting_time']:
+            data['cutting_time'] = 0
+        if not data['price']:
+            data['price'] = 0
+        return data

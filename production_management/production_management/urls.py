@@ -18,20 +18,11 @@ from django.contrib import admin
 from django.urls import re_path, path, include
 
 from production_assist.views import (
-    HomeView,
-    LoginView,
-    LogoutView,
-    CompanyListView,
-    CompanyDetailView,
-    CompanyCreateView,
-    CompanyUpdateView,
-    PersonListView,
-    PersonDetailView,
-    PersonCreateView,
-    PersonUpdateView,
-    CompanyPersonListView,
-    CompanyPersonCreateView,
-    CompanyPersonUpdateView,
+    HomeView, LoginView, LogoutView,
+    CompanyListView, CompanyDetailView, CompanyCreateView, CompanyUpdateView,
+    PersonListView, PersonDetailView, PersonCreateView, PersonUpdateView,
+    CompanyPersonListView, CompanyPersonCreateView, CompanyPersonUpdateView,
+    RetailListView, RetailDetailView, RetailCreateView, RetailUpdateView,
 )
 
 if settings.DEBUG:
@@ -40,26 +31,33 @@ if settings.DEBUG:
 urlpatterns = [
     re_path(r'^$', HomeView.as_view(), name='home-view'),
 
-    # company
+    # COMPANY
     re_path(r'^company/$', CompanyListView.as_view(), name='company-list-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/$', CompanyDetailView.as_view(), name='company-detail-view'),
     re_path(r'^company/add/$', CompanyCreateView.as_view(), name='company-create-view'),
     re_path(r'^company/edit/(?P<id_company>(\d)+)/$', CompanyUpdateView.as_view(), name='company-update-view'),
 
-    # person
+    # PERSON
     re_path(r'^person/$', PersonListView.as_view(), name='person-list-view'),
     re_path(r'^person/(?P<id_person>(\d)+)/$', PersonDetailView.as_view(), name='person-detail-view'),
     re_path(r'^person/add/$', PersonCreateView.as_view(), name='person-create-view'),
     re_path(r'^person/(?P<id_person>(\d)+)/edit/$', PersonUpdateView.as_view(), name='person-update-view'),
 
-    # company-person
+    # COMPANY_PERSON
     re_path(r'^company/(?P<id_company>(\d)+)/person/$',
             CompanyPersonListView.as_view(), name='company-person-list-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/person/add/$',
             CompanyPersonCreateView.as_view(), name='company-person-create-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/person/(?P<id_person>(\d)+)/edit/$',
             CompanyPersonUpdateView.as_view(), name='company-person-update-view'),
-    # admin
+
+    # RETAIL
+    re_path(r'^retail/$', RetailListView.as_view(), name='retail-list-view'),
+    re_path(r'^retail/(?P<id_retail>(\d)+)/$', RetailDetailView.as_view(), name='retail-detail-view'),
+    re_path(r'^retail/add/$', RetailCreateView.as_view(), name='retail-create-view'),
+    re_path(r'^retail/(?P<id_retail>(\d)+)/update/$', RetailUpdateView.as_view(), name='retail-update-view'),
+
+    # ADMIN
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),
     re_path(r'^logout/$', LogoutView.as_view(), name='logout-view'),
     re_path(r'^admin/', admin.site.urls),

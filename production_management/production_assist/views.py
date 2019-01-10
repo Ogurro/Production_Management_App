@@ -15,6 +15,7 @@ from .models import (
     Company,
     CompanyDetails,
     Person,
+    Retail,
 )
 
 from .forms import (
@@ -22,6 +23,7 @@ from .forms import (
     CompanyUpdateForm,
     PersonCreateForm,
     CompanyPersonCreateForm,
+    RetailCreateForm,
 )
 
 
@@ -227,6 +229,9 @@ class CompanyPersonCreateView(PersonCreateView):
 
 
 class CompanyPersonUpdateView(PersonUpdateView):
+    template_name = 'production_assist/company-person-create-view.html'
+    form_class = CompanyPersonCreateForm
+
     def get_success_url(self):
         id_company = self.request.POST.get('company')
         return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
@@ -241,3 +246,57 @@ class CompanyPersonUpdateView(PersonUpdateView):
         id_company = self.kwargs.get('id_company')
         initial['company'] = get_object_or_404(Company, id=id_company)
         return initial
+
+
+# RETAIL
+class RetailListView(PaginatedListView):
+    template_name = 'production_assist/retail-list-view.html'
+    queryset = Retail.objects.all()
+    paginate_by = 15
+
+
+class RetailDetailView(DetailView):
+    template_name = 'production_assist/retail-detail-view.html'
+    queryset = Retail.objects.all()
+    context_object_name = 'retail'
+
+    def get_object(self, queryset=queryset):
+        id_retail = self.kwargs.get('id_retail')
+        return get_object_or_404(Retail, id=id_retail)
+
+
+class RetailCreateView(CreateView):
+    template_name = 'production_assist/retail-create-view.html'
+    form_class = RetailCreateForm
+
+    def get_success_url(self):
+        id_retail = self.object.id
+        retail = get_object_or_404(Retail, id=id_retail)
+        return retail.get_absolute_url()
+
+    def form_valid(self, form):
+        retail = form.save()
+        messages.success(self.request, f'Added retail {retail} to company {retail.company}')
+        return super(RetailCreateView, self).form_valid(form)
+
+
+class RetailUpdateView(UpdateView):
+    template_name = 'production_assist/retail-create-view.html'
+    form_class = RetailCreateForm
+    queryset = Retail.objects.all()
+
+    def get_success_url(self):
+        id_retail = self.object.id
+        retail = get_object_or_404(Retail, id=id_retail)
+        return retail.get_absolute_url()
+
+    def get_object(self, queryset=queryset):
+        id_retail = self.kwargs.get('id_retail')
+        return get_object_or_404(Retail, id=id_retail)
+
+    def form_valid(self, form):
+        retail = form.save()
+        messages.success(self.request, f'Updated retail {retail}')
+        return super(RetailUpdateView, self).form_valid(form)
+
+# COMPANY-RETAIL

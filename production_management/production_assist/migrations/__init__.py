@@ -62,6 +62,9 @@ def retails():
             obj.drawing_number = fake.random_int(min=10000, max=1000000)
             if obj.width > obj.length:
                 obj.width, obj.length = obj.length, obj.width
+            obj.cutting_length = fake.random_int(min=100, max=10000)
+            obj.cutting_time = fake.random_int(min=1, max=100000)
+            obj.price = fake.random_int(min=100, max=10000)
             obj.save()
     return True
 
@@ -111,5 +114,3 @@ def populate(*args, **kwargs):
     offers()
     offerretail()
     add_person_email_position()
-
-

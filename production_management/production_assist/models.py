@@ -79,7 +79,7 @@ class Retail(models.Model):
     price = models.DecimalField(max_digits=20, decimal_places=2, blank=True, default=0)
 
     class Meta:
-        ordering = ['company', 'name', 'thickness', ]
+        ordering = ['company', '-id', 'name', 'thickness', ]
 
     def __str__(self):
         return f'{self.name} #{self.thickness} {self.width}x{self.length}'
@@ -99,7 +99,7 @@ class Offer(models.Model):
     status = models.IntegerField(choices=OFFER_STATUS, default=1)
 
     class Meta:
-        ordering = ['id', ]
+        ordering = ['-id', ]
 
     def __str__(self):
         return f'O-{str(self.id).zfill(6)}'

@@ -1,6 +1,6 @@
 <div class="container mt-0 d-none">
     {% if object.person_set.all %}
-        {% for person in object.person_set.all %}
+        {% for person in object.person_set.all|slice:'10' %}
             <div class="mb-3">
                 <ol class="list-group list-group-flush col-lg-auto list-unstyled">
                     <li class="list-group-item"><strong>{{ person }}</strong></li>

@@ -1,0 +1,17 @@
+<div class="container-fluid mt-0 d-none">
+    {% if retail.offer_set.all %}
+        {% for object in retail.offer_set.all %}
+            <div class="mb-3">
+                <ol class="list-group list-group-flush col-lg-12">
+                    <li class="list-group-item"><strong>{{ object }}</strong></li>
+                    {% for instance in object.offerretail_set.all %}
+                        <li class="list-group-item ml-4 disabled d-none">{{ instance.retail}} : {{ instance.quantity }} </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="ml-3"> #TO DO ADD BUTTONS! </p>
+        {#      TODO ADD BUTTONS      #}
+    {% endif %}
+</div>
