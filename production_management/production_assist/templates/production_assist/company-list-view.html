@@ -24,6 +24,10 @@
                         </li>
                         <li class="list-inline-item mr-0">
                             <input class="btn btn-dark list-inline-item" type="button"
+                                   onclick="location.href='{% url 'company-update-view' obj.id %}'" value="Edit"/>
+                        </li>
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark list-inline-item" type="button"
                                    onclick="location.href='{% url 'company-person-list-view' obj.id %}'" value="Personnel"/>
                         </li>
                     </ul>

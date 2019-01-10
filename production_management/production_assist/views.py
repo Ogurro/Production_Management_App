@@ -21,7 +21,7 @@ from .forms import (
     CompanyCreateForm,
     CompanyUpdateForm,
     PersonCreateForm,
-    PersonUpdateForm,
+    CompanyPersonCreateForm,
 )
 
 
@@ -51,6 +51,7 @@ class PaginatedListView(ListView):
         return context
 
 
+# ADMIN
 class HomeView(View):
     def get(self, request):
         return render(request, 'production_assist/base.html')
@@ -75,6 +76,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
         return self.success_message % cleaned_data
 
 
+# COMPANY
 class CompanyListView(PaginatedListView):
     template_name = 'production_assist/company-list-view.html'
     queryset = Company.objects.all()
@@ -136,6 +138,7 @@ class CompanyUpdateView(UpdateView):
         return redirect(company.get_absolute_url())
 
 
+# PERSON
 class PersonListView(PaginatedListView):
     template_name = 'production_assist/person-list-view.html'
     queryset = Person.objects.all()
@@ -156,16 +159,26 @@ class PersonCreateView(CreateView):
     template_name = 'production_assist/person-create-view.html'
     form_class = PersonCreateForm
 
+    def get_success_url(self):
+        id_person = self.object.id
+        person = get_object_or_404(Person, id=id_person)
+        return person.get_absolute_url()
+
     def form_valid(self, form):
         person = form.save()
         messages.success(self.request, f'Added person {person} to company {person.company}')
-        return redirect(person.get_absolute_url())
+        return super(PersonCreateView, self).form_valid(form)
 
 
 class PersonUpdateView(UpdateView):
     template_name = 'production_assist/person-create-view.html'
-    form_class = PersonUpdateForm
+    form_class = PersonCreateForm
     queryset = Person.objects.all()
+
+    def get_success_url(self):
+        id_person = self.object.id
+        person = get_object_or_404(Person, id=id_person)
+        return person.get_absolute_url()
 
     def get_object(self, queryset=queryset):
         id_person = self.kwargs.get('id_person')
@@ -174,9 +187,10 @@ class PersonUpdateView(UpdateView):
     def form_valid(self, form):
         person = form.save()
         messages.success(self.request, f'Updated person {person}')
-        return redirect(person.get_absolute_url())
+        return super(PersonUpdateView, self).form_valid(form)
 
 
+# COMPANY PERSON
 class CompanyPersonListView(PaginatedListView):
     template_name = 'production_assist/company-person-list-view.html'
     paginate_by = 10
@@ -190,3 +204,40 @@ class CompanyPersonListView(PaginatedListView):
     def get_queryset(self):
         id_company = self.kwargs.get('id_company')
         return Person.objects.filter(company_id=id_company)
+
+
+class CompanyPersonCreateView(PersonCreateView):
+    template_name = 'production_assist/company-person-create-view.html'
+    form_class = CompanyPersonCreateForm
+
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyPersonCreateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyPersonCreateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial
+
+
+class CompanyPersonUpdateView(PersonUpdateView):
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyPersonUpdateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyPersonUpdateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial

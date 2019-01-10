@@ -3,12 +3,11 @@
 {% block title %}Company Details{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Company</span>
+    <span class="h2 pull-left">{{ object.name }}</span>
     <input class="btn btn-dark mb-2 d-inline" type="button"
            onclick="location.href='{% url 'company-update-view' object.id %}'" value="Edit"/>
     {#      company section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Name: </strong>{{ object.name }}</p>
         <p><strong>Address: </strong>{{ object.companydetails.address }}</p>
         <p><strong>Phone: </strong>{{ object.companydetails.phone }}</p>
         <p><strong>Email: </strong>{{ object.companydetails.email }}</p>
@@ -17,6 +16,12 @@
                 {#      personell section      #}
                 <div class="col-md-6">
                     <button id="personnel" class="btn btn-light font-weight-bold mb-3">Personnel</button>
+                    <button class="btn btn-dark mb-3"
+                            onclick="location.href='{% url 'company-person-list-view' object.id %}'">Show All
+                    </button>
+                    <button class="btn btn-dark mb-3"
+                            onclick="location.href='{% url 'company-person-create-view' object.id %}'">Add
+                    </button>
                     {% include 'production_assist/personnel-list.html' %}
                 </div>
                 {#      retail section      #}

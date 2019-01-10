@@ -30,6 +30,8 @@ from production_assist.views import (
     PersonCreateView,
     PersonUpdateView,
     CompanyPersonListView,
+    CompanyPersonCreateView,
+    CompanyPersonUpdateView,
 )
 
 if settings.DEBUG:
@@ -37,16 +39,27 @@ if settings.DEBUG:
 
 urlpatterns = [
     re_path(r'^$', HomeView.as_view(), name='home-view'),
+
+    # company
     re_path(r'^company/$', CompanyListView.as_view(), name='company-list-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/$', CompanyDetailView.as_view(), name='company-detail-view'),
     re_path(r'^company/add/$', CompanyCreateView.as_view(), name='company-create-view'),
     re_path(r'^company/edit/(?P<id_company>(\d)+)/$', CompanyUpdateView.as_view(), name='company-update-view'),
+
+    # person
     re_path(r'^person/$', PersonListView.as_view(), name='person-list-view'),
     re_path(r'^person/(?P<id_person>(\d)+)/$', PersonDetailView.as_view(), name='person-detail-view'),
+    re_path(r'^person/add/$', PersonCreateView.as_view(), name='person-create-view'),
+    re_path(r'^person/(?P<id_person>(\d)+)/edit/$', PersonUpdateView.as_view(), name='person-update-view'),
+
+    # company-person
     re_path(r'^company/(?P<id_company>(\d)+)/person/$',
             CompanyPersonListView.as_view(), name='company-person-list-view'),
-    re_path(r'^person/add/$', PersonCreateView.as_view(), name='person-create-view'),
-    re_path(r'^person/edit/(?P<id_person>(\d)+)/$', PersonUpdateView.as_view(), name='person-update-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/person/add/$',
+            CompanyPersonCreateView.as_view(), name='company-person-create-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/person/(?P<id_person>(\d)+)/edit/$',
+            CompanyPersonUpdateView.as_view(), name='company-person-update-view'),
+    # admin
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),
     re_path(r'^logout/$', LogoutView.as_view(), name='logout-view'),
     re_path(r'^admin/', admin.site.urls),

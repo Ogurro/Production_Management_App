@@ -77,7 +77,16 @@ class PersonCreateForm(forms.ModelForm):
         return email
 
 
-class PersonUpdateForm(PersonCreateForm):
+class CompanyPersonCreateForm(PersonCreateForm):
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
+
     class Meta:
         model = Person
-        exclude = ['company']
+        fields = [
+            'company',
+            'first_name',
+            'last_name',
+            'phone',
+            'email',
+            'position',
+        ]

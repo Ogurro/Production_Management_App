@@ -3,7 +3,8 @@
 {% block title %}Create Person{% endblock %}
 
 {% block content %}
-    <span class="h2">Create Person</span>
+    <h2>Create Person</h2>
+    <h5>{{ company }}</h5>
     <div class="mt-2 mb-3">
         <form action="." method="post">
             {% csrf_token %}

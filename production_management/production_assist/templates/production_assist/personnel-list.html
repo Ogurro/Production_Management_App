@@ -2,15 +2,31 @@
     {% if object.person_set.all %}
         {% for person in object.person_set.all %}
             <div class="mb-3">
-                <ol class="list-group list-group-flush col-lg-auto">
+                <ol class="list-group list-group-flush col-lg-auto list-unstyled">
                     <li class="list-group-item"><strong>{{ person }}</strong></li>
-                    <li class="list-group-item ml-4 disabled d-none"><strong>Position: </strong>
-                        {% if person.position %}{{ person.position }}{% else %} ---- {% endif %}
+                    <li class="list-group-item ml-4 disabled d-none">
+                        <strong>Position: </strong> {{ person.position }}
                     </li>
-                    <li class="list-group-item ml-4 disabled d-none"><strong>Phone: </strong>
-                        {% if person.phone %}{{ person.phone }}{% else %} ---- {% endif %}</li>
-                    <li class="list-group-item ml-4 disabled d-none"><strong>Email: </strong>
-                        {% if person.email %}{{ person.email }}{% else %} ---- {% endif %}</li>
+                    <li class="list-group-item ml-4 disabled d-none">
+                        <strong>Phone: </strong> {{ person.phone }}
+                    </li>
+                    <li class="list-group-item ml-4 disabled d-none">
+                        <strong>Email: </strong>{{ person.email }}
+                    </li>
+                    <li class="ml-4 d-none">
+                        <ul class="list-inline">
+                            <li class="list-inline-item mr-0">
+                                <input class="btn btn-dark" type="button"
+                                       onclick="location.href='{{ person.get_absolute_url }}'"
+                                       value="More info"/>
+                            </li>
+                            <li class="list-inline-item mr-0">
+                                <input class="btn btn-dark list-inline-item" type="button"
+                                       onclick="location.href='{% url 'company-person-update-view' person.company.id person.id %}'"
+                                       value="Edit"/>
+                            </li>
+                        </ul>
+                    </li>
                 </ol>
             </div>
         {% endfor %}

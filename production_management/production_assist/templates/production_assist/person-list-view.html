@@ -17,8 +17,24 @@
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Email: </strong>{{ obj.email }}</li>
                 <li class="ml-4 d-none">
-                    <input class="btn btn-dark"
-                           type="button" onclick="location.href='{{ obj.get_absolute_url }}'" value="More info"/>
+                    <ul class="list-inline">
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark"
+                                   type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
+                                   value="More info"/>
+                        </li>
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark"
+                                   type="button"
+                                   onclick="location.href='{% url 'company-detail-view' obj.company.id %}'"
+                                   value="Company"/>
+                        </li>
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark list-inline-item" type="button"
+                                   onclick="location.href='{% url 'person-update-view' obj.id %}'"
+                                   value="Edit"/>
+                        </li>
+                    </ul>
                 </li>
             </ol>
         </div>
