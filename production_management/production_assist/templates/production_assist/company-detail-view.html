@@ -27,6 +27,12 @@
                 {#      retail section      #}
                 <div class="col-md-6">
                     <button id="retail" class="btn btn-light font-weight-bold mb-3">Retail</button>
+                    <button class="btn btn-dark mb-3"
+                            onclick="location.href='{% url 'company-retail-list-view' object.id %}'">Show All
+                    </button>
+                    <button class="btn btn-dark mb-3"
+                            onclick="location.href='{% url 'company-retail-create-view' object.id %}'">Add
+                    </button>
                     {% include 'production_assist/retail-list.html' %}
                 </div>
             </div>

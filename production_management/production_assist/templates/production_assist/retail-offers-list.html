@@ -4,7 +4,7 @@
             <div class="mb-3">
                 <ol class="list-group list-group-flush col-lg-12">
                     <li class="list-group-item"><strong>{{ object }}</strong></li>
-                    {% for instance in object.offerretail_set.all %}
+                    {% for instance in object.offerretail_set.all|slice:'10' %}
                         <li class="list-group-item ml-4 disabled d-none">{{ instance.retail}} : {{ instance.quantity }} </li>
                     {% endfor %}
                 </ol>

@@ -1,9 +1,9 @@
 {% extends 'production_assist/base.html' %}
 
-{% block title %}Personnel List{% endblock %}
+{% block title %}Retail List{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Personnel</span>
+    <span class="h2 pull-left">Retails</span>
     <button type="button" class="btn btn-light font-weight-bold mb-3"
             onclick="location.href='{% url 'company-detail-view' company.id %}'">{{ company }}</button>
     {% for obj in object_list %}
@@ -11,22 +11,20 @@
             <ol class="list-unstyled list-group list-group-flush col-lg-7 list-">
                 <li class="list-group-item"><strong>{{ obj }}</strong></li>
                 <li class="list-group-item ml-4 d-none disabled">
-                    <strong>Position: </strong>{{ obj.position }}</li>
+                    <strong>Material: </strong>{{ obj.material }}</li>
                 <li class="list-group-item ml-4 d-none disabled">
-                    <strong>Phone: </strong>{{ obj.phone }}</li>
-                <li class="list-group-item ml-4 d-none disabled">
-                    <strong>Email: </strong>{{ obj.email }}</li>
+                    <strong>Drawing number: </strong>{{ obj.drawing_number }}</li>
                 <li class="ml-4 d-none">
                     <ul class="list-inline">
                         <li class="list-inline-item mr-0">
                             <input class="btn btn-dark"
-                                   type="button" onclick="location.href='{{ obj.get_absolute_url }}'"
+                                   type="button" onclick="location.href='{% url 'company-retail-list-view' company.id obj.id %}'"
                                    value="More info"/>
                         </li>
                         <li class="list-inline-item mr-0">
                             <input class="btn btn-dark"
                                    type="button"
-                                   onclick="location.href='{% url 'company-person-update-view' company.id obj.id %}'"
+                                   onclick="location.href='{% url 'company-retail-update-view' company.id obj.id %}'"
                                    value="Edit"/>
                         </li>
                     </ul>

@@ -102,3 +102,7 @@ class RetailCreateForm(forms.ModelForm):
         if not data['price']:
             data['price'] = 0
         return data
+
+
+class CompanyRetailCreateForm(RetailCreateForm):
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)

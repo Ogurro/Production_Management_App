@@ -21,8 +21,9 @@ from production_assist.views import (
     HomeView, LoginView, LogoutView,
     CompanyListView, CompanyDetailView, CompanyCreateView, CompanyUpdateView,
     PersonListView, PersonDetailView, PersonCreateView, PersonUpdateView,
-    CompanyPersonListView, CompanyPersonCreateView, CompanyPersonUpdateView,
+    CompanyPersonListView, CompanyPersonDetailView, CompanyPersonCreateView, CompanyPersonUpdateView,
     RetailListView, RetailDetailView, RetailCreateView, RetailUpdateView,
+    CompanyRetailListView, CompanyRetailDetailView, CompanyRetailCreateView, CompanyRetailUpdateView
 )
 
 if settings.DEBUG:
@@ -46,6 +47,8 @@ urlpatterns = [
     # COMPANY_PERSON
     re_path(r'^company/(?P<id_company>(\d)+)/person/$',
             CompanyPersonListView.as_view(), name='company-person-list-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/person/(?P<id_person>(\d)+)/$',
+            CompanyPersonDetailView.as_view(), name='company-person-detail-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/person/add/$',
             CompanyPersonCreateView.as_view(), name='company-person-create-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/person/(?P<id_person>(\d)+)/edit/$',
@@ -56,6 +59,16 @@ urlpatterns = [
     re_path(r'^retail/(?P<id_retail>(\d)+)/$', RetailDetailView.as_view(), name='retail-detail-view'),
     re_path(r'^retail/add/$', RetailCreateView.as_view(), name='retail-create-view'),
     re_path(r'^retail/(?P<id_retail>(\d)+)/update/$', RetailUpdateView.as_view(), name='retail-update-view'),
+
+    # COMPANY-RETAIL
+    re_path(r'^company/(?P<id_company>(\d)+)/retail/$',
+            CompanyRetailListView.as_view(), name='company-retail-list-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/retail/(?P<id_retail>(\d)+)/$',
+            CompanyRetailDetailView.as_view(), name='company-retail-detail-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/retail/add/$',
+            CompanyRetailCreateView.as_view(), name='company-retail-create-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/retail/(?P<id_retail>(\d)+)/update/$',
+            CompanyRetailUpdateView.as_view(), name='company-retail-update-view'),
 
     # ADMIN
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),

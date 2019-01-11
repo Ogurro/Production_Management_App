@@ -24,6 +24,7 @@ from .forms import (
     PersonCreateForm,
     CompanyPersonCreateForm,
     RetailCreateForm,
+    CompanyRetailCreateForm,
 )
 
 
@@ -208,6 +209,10 @@ class CompanyPersonListView(PaginatedListView):
         return Person.objects.filter(company_id=id_company)
 
 
+class CompanyPersonDetailView(PersonDetailView):
+    template_name = 'production_assist/company-person-detail-view.html'
+
+
 class CompanyPersonCreateView(PersonCreateView):
     template_name = 'production_assist/company-person-create-view.html'
     form_class = CompanyPersonCreateForm
@@ -299,4 +304,62 @@ class RetailUpdateView(UpdateView):
         messages.success(self.request, f'Updated retail {retail}')
         return super(RetailUpdateView, self).form_valid(form)
 
+
 # COMPANY-RETAIL
+class CompanyRetailListView(PaginatedListView):
+    template_name = 'production_assist/company-retail-list-view.html'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CompanyRetailListView, self).get_context_data()
+        id_company = self.kwargs.get('id_company')
+        context['company'] = get_object_or_404(Company, id=id_company)
+        return context
+
+    def get_queryset(self):
+        id_company = self.kwargs.get('id_company')
+        return Retail.objects.filter(company_id=id_company)
+
+
+class CompanyRetailDetailView(RetailDetailView):
+    template_name = 'production_assist/company-retail-detail-view.html'
+
+
+class CompanyRetailCreateView(RetailCreateView):
+    template_name = 'production_assist/company-retail-create-view.html'
+    form_class = CompanyRetailCreateForm
+
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyRetailCreateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyRetailCreateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial
+
+
+class CompanyRetailUpdateView(RetailUpdateView):
+    template_name = 'production_assist/company-retail-create-view.html'
+    form_class = CompanyRetailCreateForm
+
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyRetailUpdateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyRetailUpdateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial

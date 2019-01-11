@@ -14,12 +14,12 @@
                         <ul class="list-inline">
                             <li class="list-inline-item mr-0">
                                 <input class="btn btn-dark" type="button"
-                                       onclick="location.href='{{ retail.get_absolute_url }}'"
+                                       onclick="location.href='{% url 'company-retail-detail-view' retail.company.id retail.id %}'"
                                        value="More info"/>
                             </li>
                             <li class="list-inline-item mr-0">
                                 <input class="btn btn-dark list-inline-item" type="button"
-                                       onclick="location.href='{% url 'retail-update-view' retail.id %}'"
+                                       onclick="location.href='{% url 'company-retail-update-view' retail.company.id retail.id %}'"
                                        value="Edit"/>
                             </li>
                         </ul>

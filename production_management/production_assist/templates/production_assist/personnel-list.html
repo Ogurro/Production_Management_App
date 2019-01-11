@@ -17,7 +17,7 @@
                         <ul class="list-inline">
                             <li class="list-inline-item mr-0">
                                 <input class="btn btn-dark" type="button"
-                                       onclick="location.href='{{ person.get_absolute_url }}'"
+                                       onclick="location.href='{% url 'company-person-detail-view' person.company.id person.id %}'"
                                        value="More info"/>
                             </li>
                             <li class="list-inline-item mr-0">
