@@ -91,7 +91,7 @@ def offers():
             obj.final_date = fake.date_between_dates(date_start=datetime.date.today(),
                                                      date_end=datetime.date(2100, 12, 31)
                                                      )
-            obj.status = fake.random_int(min=-1, max=7)
+            obj.status = fake.random.choice(OFFER_STATUS)[0]
             obj.save()
     return True
 
@@ -103,7 +103,7 @@ def offerretail():
         retail_set = random.sample(set(retail), random.randint(1, len(retail)))
         for r in retail_set:
             obj = OfferRetail(offer=o, retail=r)
-            obj.quantity = fake.random.choice(OFFER_STATUS)[0]
+            obj.quantity = fake.random_int(min=1, max=1000)
             obj.save()
     return True
 
