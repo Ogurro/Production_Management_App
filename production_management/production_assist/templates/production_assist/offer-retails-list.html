@@ -1,0 +1,33 @@
+<div class="container mt-0 d-none">
+    {% if offer.offerretail_set.all %}
+        {% for object in offer.offerretail_set.all %}
+            <div class="mb-3">
+                <ol class="list-group list-group-flush col-lg-auto list-unstyled">
+                    <li class="list-group-item"><strong>{{ object.retail }}</strong></li>
+                    <li class="list-group-item ml-4 disabled d-none">
+                        <strong>Material: </strong>{{ object.retail.material }}</li>
+                    <li class="list-group-item ml-4 disabled d-none">
+                        <strong>Drawing number: </strong>{{ object.retail.drawing_number }}</li>
+                    <li class="ml-4 d-none">
+                        <ul class="list-inline">
+                            <li class="list-inline-item mr-0">
+                                <input class="btn btn-dark"
+                                       type="button"
+                                       onclick="location.href='{% url 'retail-detail-view' object.retail.id %}'"
+                                       value="More info"/>
+                            </li>
+                            <li class="list-inline-item mr-0">
+                                <input class="btn btn-dark"
+                                       type="button"
+                                       onclick="location.href='{% url 'retail-update-view' object.retail.id %}'"
+                                       value="Edit"/>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="ml-3">No Retails for this Offer</p>
+    {% endif %}
+</div>

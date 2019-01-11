@@ -2015,6 +2015,12 @@ pre code {
     border: 0;
 }
 
+.my-checkbox {
+    width: 2vw;
+    height: 2vh;
+
+}
+
 .form-control {
     display: block;
     width: 100%;

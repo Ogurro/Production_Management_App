@@ -1,4 +1,4 @@
-<div class="container-fluid mt-0 d-none">
+<div class="container mt-0 d-none">
     {% if person.offer_set.all %}
         {% for object in person.offer_set.all %}
             <div class="mb-3">
@@ -11,7 +11,6 @@
             </div>
         {% endfor %}
     {% else %}
-        <p class="ml-3"> #TO DO ADD BUTTONS! </p>
-        {#      TODO ADD BUTTONS      #}
+        <p class="ml-3"> No offers for this Person </p>
     {% endif %}
 </div>

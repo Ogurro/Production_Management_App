@@ -8,33 +8,54 @@
            onclick="location.href='{% url 'company-update-view' object.id %}'" value="Edit"/>
     {#      company section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Address: </strong>{{ object.companydetails.address }}</p>
-        <p><strong>Phone: </strong>{{ object.companydetails.phone }}</p>
-        <p><strong>Email: </strong>{{ object.companydetails.email }}</p>
-        <div class="container-fluid">
-            <div class="row">
-                {#      personell section      #}
-                <div class="col-md-6">
-                    <button id="personnel" class="btn btn-light font-weight-bold mb-3">Personnel</button>
-                    <button class="btn btn-dark mb-3"
-                            onclick="location.href='{% url 'company-person-list-view' object.id %}'">Show All
-                    </button>
-                    <button class="btn btn-dark mb-3"
-                            onclick="location.href='{% url 'company-person-create-view' object.id %}'">Add
-                    </button>
-                    {% include 'production_assist/personnel-list.html' %}
-                </div>
-                {#      retail section      #}
-                <div class="col-md-6">
-                    <button id="retail" class="btn btn-light font-weight-bold mb-3">Retail</button>
-                    <button class="btn btn-dark mb-3"
-                            onclick="location.href='{% url 'company-retail-list-view' object.id %}'">Show All
-                    </button>
-                    <button class="btn btn-dark mb-3"
-                            onclick="location.href='{% url 'company-retail-create-view' object.id %}'">Add
-                    </button>
-                    {% include 'production_assist/retail-list.html' %}
-                </div>
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Address: </strong>{{ object.companydetails.address }}</p>
+            <p><strong>Phone: </strong>{{ object.companydetails.phone }}</p>
+            <p><strong>Email: </strong>{{ object.companydetails.email }}</p>
+        </div>
+        <div class="col-md-6">
+            {% if object.companydetails.description %}
+                <p><strong>Description</strong></p>
+                <blockquote class="blockquote">
+                    <p class="mb-0">{{ object.companydetails.description }}</p>
+                </blockquote>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            {#      personell section      #}
+            <div class="col-md-4">
+                <button id="personnel" class="btn btn-light font-weight-bold mb-3">Personnel</button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-person-list-view' object.id %}'">Show All
+                </button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-person-create-view' object.id %}'">Add
+                </button>
+                {% include 'production_assist/personnel-list.html' %}
+            </div>
+            {#      retail section      #}
+            <div class="col-md-4">
+                <button id="retail" class="btn btn-light font-weight-bold mb-3">Retails</button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-retail-list-view' object.id %}'">Show All
+                </button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-retail-create-view' object.id %}'">Add
+                </button>
+                {% include 'production_assist/retail-list.html' %}
+            </div>
+            <div class="col-md-4">
+                <button id="offers" class="btn btn-light font-weight-bold mb-3">Offers</button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-offer-list-view' object.id %}'">Show All
+                </button>
+                <button class="btn btn-dark mb-3"
+                        onclick="location.href='{% url 'company-offer-create-view' object.id %}'">Add
+                </button>
+                {% include 'production_assist/offer-list.html' %}
             </div>
         </div>
 

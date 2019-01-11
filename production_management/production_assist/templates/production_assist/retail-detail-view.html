@@ -11,17 +11,24 @@
                 onclick="location.href='{% url 'company-detail-view' retail.company.id %}'">
             {{ retail.company }}</button>
     </p>
-    {#      company section      #}
+    {#      retail section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Name: </strong>{{ retail.name }}</p>
-        <p><strong>Drawing number: </strong>{{ retail.drawing_number}}</p>
-        <p><strong>Material: </strong>{{ retail.material }}</p>
-        <p><strong>Thickness: </strong>{{ retail.thickness }}</p>
-        <p><strong>Width: </strong>{{ retail.width }}</p>
-        <p><strong>Length: </strong>{{ retail.length }}</p>
-        <p><strong>Cutting length: </strong>{{ retail.cutting_length }}</p>
-        <p><strong>Cutting time: </strong>{{ retail.cutting_time }}</p>
-        <p><strong>Price: </strong>{{ retail.price }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Name: </strong>{{ retail.name }}</p>
+                <p><strong>Drawing number: </strong>{{ retail.drawing_number }}</p>
+                <p><strong>Material: </strong>{{ retail.material }}</p>
+                <p><strong>Thickness: </strong>{{ retail.thickness }}</p>
+                <p><strong>Width: </strong>{{ retail.width }}</p>
+                <p><strong>Length: </strong>{{ retail.length }}</p>
+                <p><strong>Cutting length: </strong>{{ retail.cutting_length }}</p>
+                <p><strong>Cutting time: </strong>{{ retail.cutting_time }}</p>
+                <p><strong>Price: </strong>{{ retail.price }}</p>
+            </div>
+            <div class="col-md-6">
+                {% include 'production_assist/retail-more-info.html' %}
+            </div>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 {#      included in offers section      #}
@@ -39,5 +46,5 @@
 
 {% block js %}
     {% include 'production_assist/list-show-siblings-js.html' %}
-    {% include 'production_assist/person-detail-js.html' %}
+    {% include 'production_assist/retail-detail-js.html' %}
 {% endblock %}

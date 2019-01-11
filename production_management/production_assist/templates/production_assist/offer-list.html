@@ -1,25 +1,25 @@
 <div class="container mt-0 d-none">
-    {% if object.retail_set.all %}
-        {% for retail in object.retail_set.all|slice:'10' %}
+    {% if object.offer_set.all %}
+        {% for offer in object.offer_set.all|slice:'10' %}
             <div class="mb-3">
                 <ol class="list-group list-group-flush col-lg-auto list-unstyled">
-                    <li class="list-group-item"><strong>{{ retail }}</strong></li>
+                    <li class="list-group-item"><strong>{{ offer }}</strong></li>
                     <li class="list-group-item ml-4 disabled d-none">
-                        <strong>Material: </strong> {{ retail.material }}
+                        <strong>Status: </strong> {{ offer.get_status_display }}
                     </li>
                     <li class="list-group-item ml-4 disabled d-none">
-                        <strong>Drawing number: </strong>{{ retail.drawing_number }}
+                        <strong>Final Date: </strong>{{ offer.final_date }}
                     </li>
                     <li class="ml-4 d-none">
                         <ul class="list-inline">
                             <li class="list-inline-item mr-0">
                                 <input class="btn btn-dark" type="button"
-                                       onclick="location.href='{% url 'company-retail-detail-view' retail.company.id retail.id %}'"
+                                       onclick="location.href='{% url 'company-offer-detail-view' offer.company.id offer.id %}'"
                                        value="More info"/>
                             </li>
                             <li class="list-inline-item mr-0">
                                 <input class="btn btn-dark list-inline-item" type="button"
-                                       onclick="location.href='{% url 'company-retail-update-view' retail.company.id retail.id %}'"
+                                       onclick="location.href='{% url 'company-offer-update-view' offer.company.id offer.id %}'"
                                        value="Edit"/>
                             </li>
                         </ul>
@@ -28,6 +28,6 @@
             </div>
         {% endfor %}
     {% else %}
-        <p class="ml-3"> No Retails for this Company </p>
+        <p class="ml-3"> No Offers for this Company </p>
     {% endif %}
 </div>

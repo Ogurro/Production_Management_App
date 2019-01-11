@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse_lazy
 
 OFFER_STATUS = (
+    (-1, 'Reclamation'),
     (0, 'Registered'),
     (1, 'Project'),
     (2, 'Pricing'),
@@ -10,7 +11,6 @@ OFFER_STATUS = (
     (5, 'Ready to receive'),
     (6, 'Finished'),
     (7, 'On hold'),
-    (8, 'Reclamation'),
 )
 
 
@@ -32,6 +32,7 @@ class CompanyDetails(models.Model):
     email = models.EmailField(blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
     address = models.CharField(max_length=255, blank=True, default='')
+    description = models.TextField(blank=True, default='')
 
     def __str__(self):
         return f'{self.company.name}: {self.address}'
@@ -96,13 +97,16 @@ class Offer(models.Model):
     final_date = models.DateField()
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
-    status = models.IntegerField(choices=OFFER_STATUS, default=1)
+    status = models.IntegerField(choices=OFFER_STATUS, default=0)
 
     class Meta:
-        ordering = ['-id', ]
+        ordering = ['status', '-id', ]
 
     def __str__(self):
         return f'O-{str(self.id).zfill(6)}'
+
+    def get_absolute_url(self):
+        return reverse_lazy('offer-detail-view', kwargs={'id_offer': self.id})
 
 
 class OfferRetail(models.Model):
@@ -115,3 +119,27 @@ class OfferRetail(models.Model):
 
     def get_absolute_url(self):
         return reverse_lazy('offer-detail-view', kwargs={'id_offer': self.id})
+
+
+class RetailInformation(models.Model):
+    retail = models.ForeignKey(Retail, on_delete=models.PROTECT)
+    info = models.TextField(blank=True, default='')
+    create_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id', ]
+
+    def __str__(self):
+        return f'{self.info}'
+
+
+class OfferInformation(models.Model):
+    offer = models.ForeignKey(Offer, on_delete=models.PROTECT)
+    info = models.TextField(blank=True, default='')
+    create_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id', ]
+
+    def __str__(self):
+        return f'{self.info}'

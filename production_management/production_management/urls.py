@@ -23,7 +23,10 @@ from production_assist.views import (
     PersonListView, PersonDetailView, PersonCreateView, PersonUpdateView,
     CompanyPersonListView, CompanyPersonDetailView, CompanyPersonCreateView, CompanyPersonUpdateView,
     RetailListView, RetailDetailView, RetailCreateView, RetailUpdateView,
-    CompanyRetailListView, CompanyRetailDetailView, CompanyRetailCreateView, CompanyRetailUpdateView
+    CompanyRetailListView, CompanyRetailDetailView, CompanyRetailCreateView, CompanyRetailUpdateView,
+    OfferListView, OfferDetailView, OfferCreateView, OfferUpdateView,
+    CompanyOfferListView, CompanyOfferDetailView, CompanyOfferCreateView, CompanyOfferUpdateView,
+    OfferRetailCreateView, OfferRetailUpdateView, OfferRetailDeleteView,
 )
 
 if settings.DEBUG:
@@ -69,6 +72,29 @@ urlpatterns = [
             CompanyRetailCreateView.as_view(), name='company-retail-create-view'),
     re_path(r'^company/(?P<id_company>(\d)+)/retail/(?P<id_retail>(\d)+)/update/$',
             CompanyRetailUpdateView.as_view(), name='company-retail-update-view'),
+
+    # OFFERS
+    re_path(r'^offer/$', OfferListView.as_view(), name='offer-list-view'),
+    re_path(r'^offer/(?P<id_offer>(\d)+)/$', OfferDetailView.as_view(), name='offer-detail-view'),
+    re_path(r'^offer/add/$', OfferCreateView.as_view(), name='offer-create-view'),
+    re_path(r'^offer/(?P<id_offer>(\d)+)/update/$', OfferUpdateView.as_view(), name='offer-update-view'),
+
+    # COMPANY-OFFERS
+    re_path(r'^company/(?P<id_company>(\d)+)/offer/$', CompanyOfferListView.as_view(), name='company-offer-list-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/offer/(?P<id_offer>(\d)+)/$',
+            CompanyOfferDetailView.as_view(), name='company-offer-detail-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/offer/add/$',
+            CompanyOfferCreateView.as_view(), name='company-offer-create-view'),
+    re_path(r'^company/(?P<id_company>(\d)+)/offer/(?P<id_offer>(\d)+)/update/$',
+            CompanyOfferUpdateView.as_view(), name='company-offer-update-view'),
+
+    # OFFER-RETAIL
+    re_path(r'^offer/(?P<id_offer>(\d)+)/retail/add/$',
+            OfferRetailCreateView.as_view(), name='offer-retail-create-view'),
+    re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/update/$',
+            OfferRetailUpdateView.as_view(), name='offer-retail-update-view'),
+    re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/remove/$',
+            OfferRetailDeleteView.as_view(), name='offer-retail-delete-view'),
 
     # ADMIN
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),

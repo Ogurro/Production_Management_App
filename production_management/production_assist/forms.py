@@ -4,7 +4,10 @@ from .models import (
     Company,
     Person,
     Retail,
+    Offer,
 )
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y', '%d %m %Y', '%d/%m/%Y']
 
 
 class PhoneEmailValidCreateForm(forms.ModelForm):
@@ -37,10 +40,10 @@ class CompanyCreateForm(forms.ModelForm):
 
 
 class CompanyUpdateForm(PhoneEmailValidCreateForm):
-    name = forms.CharField(label='Company Name')
-    email = forms.CharField(label='Email', required=False, )
-    phone = forms.CharField(label='Phone', required=False)
-    address = forms.CharField(label='Address', required=False)
+    email = forms.CharField(required=False)
+    phone = forms.CharField(required=False)
+    address = forms.CharField(required=False)
+    description = forms.CharField(required=False, widget=forms.Textarea)
 
     class Meta:
         model = Company
@@ -49,6 +52,7 @@ class CompanyUpdateForm(PhoneEmailValidCreateForm):
             'address',
             'phone',
             'email',
+            'description',
         ]
 
 
@@ -70,6 +74,7 @@ class CompanyPersonCreateForm(PersonCreateForm):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
 
 
+# RETAIL
 class RetailCreateForm(forms.ModelForm):
     drawing_number = forms.CharField(required=False)
     cutting_length = forms.IntegerField(required=False)
@@ -106,3 +111,36 @@ class RetailCreateForm(forms.ModelForm):
 
 class CompanyRetailCreateForm(RetailCreateForm):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
+
+
+# OFFER
+class OfferCreateForm(forms.ModelForm):
+    final_date = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+
+    class Meta:
+        model = Offer
+        fields = [
+            'company',
+            'status',
+            'manufacture',
+            'final_date',
+        ]
+
+
+class CompanyOfferCreateForm(OfferCreateForm):
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
+
+    class Meta:
+        model = Offer
+        fields = [
+            'company',
+            'person',
+            'status',
+            'manufacture',
+            'final_date',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(CompanyOfferCreateForm, self).__init__(*args, **kwargs)
+        company = self.initial['company']
+        self.fields['person'].queryset = Person.objects.filter(company=company)

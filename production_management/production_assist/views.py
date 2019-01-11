@@ -1,21 +1,18 @@
+from datetime import date, datetime, timedelta
+
+from django.contrib import messages
+from django.contrib.auth import views as auth_views
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.contrib.auth import views as auth_views
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
     UpdateView,
-)
-
-from .models import (
-    Company,
-    CompanyDetails,
-    Person,
-    Retail,
+    DeleteView,
 )
 
 from .forms import (
@@ -25,6 +22,16 @@ from .forms import (
     CompanyPersonCreateForm,
     RetailCreateForm,
     CompanyRetailCreateForm,
+    OfferCreateForm,
+    CompanyOfferCreateForm,
+)
+from .models import (
+    Company,
+    CompanyDetails,
+    Person,
+    Retail,
+    Offer,
+    OfferRetail,
 )
 
 
@@ -125,17 +132,20 @@ class CompanyUpdateView(UpdateView):
         initial['address'] = company_details.address
         initial['phone'] = company_details.phone
         initial['email'] = company_details.email
+        initial['description'] = company_details.description
         return initial
 
     def form_valid(self, form):
         email = form.cleaned_data.pop('email')
         phone = form.cleaned_data.pop('phone')
         address = form.cleaned_data.pop('address')
+        description = form.cleaned_data.pop('description')
         company = form.save()
         company_details = CompanyDetails.objects.get(company=company)
         company_details.address = address
         company_details.phone = phone
         company_details.email = email
+        company_details.description = description
         company_details.save()
         messages.success(self.request, f'Updated company {company}')
         return redirect(company.get_absolute_url())
@@ -174,7 +184,7 @@ class PersonCreateView(CreateView):
 
 
 class PersonUpdateView(UpdateView):
-    template_name = 'production_assist/person-create-view.html'
+    template_name = 'production_assist/person-update-view.html'
     form_class = PersonCreateForm
     queryset = Person.objects.all()
 
@@ -234,7 +244,7 @@ class CompanyPersonCreateView(PersonCreateView):
 
 
 class CompanyPersonUpdateView(PersonUpdateView):
-    template_name = 'production_assist/company-person-create-view.html'
+    template_name = 'production_assist/company-person-update-view.html'
     form_class = CompanyPersonCreateForm
 
     def get_success_url(self):
@@ -286,7 +296,7 @@ class RetailCreateView(CreateView):
 
 
 class RetailUpdateView(UpdateView):
-    template_name = 'production_assist/retail-create-view.html'
+    template_name = 'production_assist/retail-update-view.html'
     form_class = RetailCreateForm
     queryset = Retail.objects.all()
 
@@ -346,7 +356,7 @@ class CompanyRetailCreateView(RetailCreateView):
 
 
 class CompanyRetailUpdateView(RetailUpdateView):
-    template_name = 'production_assist/company-retail-create-view.html'
+    template_name = 'production_assist/company-retail-update-view.html'
     form_class = CompanyRetailCreateForm
 
     def get_success_url(self):
@@ -363,3 +373,146 @@ class CompanyRetailUpdateView(RetailUpdateView):
         id_company = self.kwargs.get('id_company')
         initial['company'] = get_object_or_404(Company, id=id_company)
         return initial
+
+
+# OFFERS
+class OfferListView(PaginatedListView):
+    template_name = 'production_assist/offer-list-view.html'
+    queryset = Offer.objects.all()
+    paginate_by = 15
+
+
+class OfferDetailView(DetailView):
+    template_name = 'production_assist/offer-detail-view.html'
+    queryset = Offer.objects.all()
+    context_object_name = 'offer'
+
+    def get_object(self, queryset=queryset):
+        id_offer = self.kwargs.get('id_offer')
+        return get_object_or_404(Offer, id=id_offer)
+
+
+class OfferCreateView(CreateView):
+    template_name = 'production_assist/offer-create-view.html'
+    form_class = OfferCreateForm
+
+    def get_initial(self):
+        initial = super(OfferCreateView, self).get_initial()
+        initial['final_date'] = datetime.strftime(datetime.today() + timedelta(days=7), '%d-%m-%Y')
+        return initial
+
+    def get_success_url(self):
+        id_offer = self.object.id
+        offer = get_object_or_404(Offer, id=id_offer)
+        return offer.get_absolute_url()
+
+    def form_valid(self, form):
+        offer = form.save()
+        messages.success(self.request, f'Added offer {offer} to company {offer.company}')
+        return super(OfferCreateView, self).form_valid(form)
+
+
+class OfferUpdateView(UpdateView):
+    template_name = 'production_assist/offer-update-view.html'
+    form_class = OfferCreateForm
+    queryset = Offer.objects.all()
+
+    def get_initial(self):
+        initial = super(OfferUpdateView, self).get_initial()
+        id_offer = self.kwargs.get('id_offer')
+        offer = get_object_or_404(Offer, id=id_offer)
+        initial['final_date'] = date.strftime(offer.final_date, '%d-%m-%Y')
+        return initial
+
+    def get_success_url(self):
+        id_offer = self.object.id
+        offer = get_object_or_404(Offer, id=id_offer)
+        return offer.get_absolute_url()
+
+    def get_object(self, queryset=queryset):
+        id_offer = self.kwargs.get('id_offer')
+        return get_object_or_404(Offer, id=id_offer)
+
+    def form_valid(self, form):
+        offer = form.save()
+        messages.success(self.request, f'Updated offer {offer}')
+        return super(OfferUpdateView, self).form_valid(form)
+
+
+# COMPANY-OFFER
+class CompanyOfferListView(PaginatedListView):
+    template_name = 'production_assist/company-offer-list-view.html'
+    paginate_by = 10
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CompanyOfferListView, self).get_context_data()
+        id_company = self.kwargs.get('id_company')
+        context['company'] = get_object_or_404(Company, id=id_company)
+        return context
+
+    def get_queryset(self):
+        id_company = self.kwargs.get('id_company')
+        return Offer.objects.filter(company_id=id_company)
+
+
+class CompanyOfferDetailView(OfferDetailView):
+    template_name = 'production_assist/company-offer-detail-view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyOfferDetailView, self).get_context_data()
+        id_offer = self.kwargs.get('id_offer')
+        offer_retails = OfferRetail.objects.filter(Q(offer_id=id_offer))
+        context['total_price'] = sum([x.quantity * x.retail.price for x in offer_retails])
+        return context
+
+
+class CompanyOfferCreateView(OfferCreateView):
+    template_name = 'production_assist/company-offer-create-view.html'
+    form_class = CompanyOfferCreateForm
+
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyOfferCreateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyOfferCreateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial
+
+
+class CompanyOfferUpdateView(OfferUpdateView):
+    template_name = 'production_assist/company-offer-update-view.html'
+    form_class = CompanyOfferCreateForm
+
+    def get_success_url(self):
+        id_company = self.request.POST.get('company')
+        return reverse_lazy('company-detail-view', kwargs={'id_company': id_company})
+
+    def get_context_data(self, **kwargs):
+        context = super(CompanyOfferUpdateView, self).get_context_data()
+        context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
+        return context
+
+    def get_initial(self):
+        initial = super(CompanyOfferUpdateView, self).get_initial()
+        id_company = self.kwargs.get('id_company')
+        initial['company'] = get_object_or_404(Company, id=id_company)
+        return initial
+
+
+class OfferRetailCreateView(CreateView):
+    pass
+
+
+class OfferRetailUpdateView(UpdateView):
+    pass
+
+
+class OfferRetailDeleteView(DeleteView):
+    pass
