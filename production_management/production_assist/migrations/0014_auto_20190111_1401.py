@@ -16,5 +16,4 @@ class Migration(migrations.Migration):
             name='status',
             field=models.IntegerField(choices=[(-1, 'Reclamation'), (0, 'Registered'), (1, 'Project'), (2, 'Pricing'), (3, 'Production'), (4, 'Tooling'), (5, 'Ready to receive'), (6, 'Finished'), (7, 'On hold')], default=1),
         ),
-        migrations.RunPython(populate),
     ]

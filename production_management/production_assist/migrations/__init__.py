@@ -7,6 +7,8 @@ from production_assist.models import (
     OfferRetail,
     Material,
     OFFER_STATUS,
+    RetailInformation,
+    OfferInformation,
 )
 from faker import Factory as FakerFactory
 import random
@@ -114,6 +116,25 @@ def add_person_email_position():
         p.save()
 
 
+def add_info_fields():
+    retail = Retail.objects.all()
+    for r in retail:
+        for _ in range(3):
+            info = fake.sentence()
+            RetailInformation.objects.create(retail=r, info=info)
+    offer = Offer.objects.all()
+    for o in offer:
+        for _ in range(3):
+            info = fake.sentence()
+            OfferInformation.objects.create(offer=o, info=info)
+    company = Company.objects.all()
+    for c in company:
+        description = fake.sentence()
+        c.description = description
+        c.save()
+    return True
+
+
 def populate(*args, **kwargs):
     materials()
     companies()
@@ -123,3 +144,4 @@ def populate(*args, **kwargs):
     offers()
     offerretail()
     add_person_email_position()
+    add_info_fields()
