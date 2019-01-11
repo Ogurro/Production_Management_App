@@ -2,7 +2,7 @@
     {% if retail.offer_set.all %}
         {% for object in retail.offer_set.all %}
             <div class="mb-3">
-                <ol class="list-group list-group-flush col-lg-12">
+                <ol class="list-group list-group-flush col-lg-auto">
                     <li class="list-group-item"><strong>{{ object }}</strong></li>
                     {% for instance in object.offerretail_set.all|slice:'10' %}
                         <li class="list-group-item ml-4 disabled d-none">{{ instance.retail}} : {{ instance.quantity }} </li>
