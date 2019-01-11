@@ -129,9 +129,9 @@ def add_info_fields():
             OfferInformation.objects.create(offer=o, info=info)
     company = Company.objects.all()
     for c in company:
-        description = fake.sentence()
-        c.description = description
-        c.save()
+        obj = CompanyDetails.objects.get(company=c)
+        obj.description = fake.sentence()
+        obj.save()
     return True
 
 
