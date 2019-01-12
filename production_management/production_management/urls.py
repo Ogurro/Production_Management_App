@@ -75,9 +75,11 @@ urlpatterns = [
     # OFFER-RETAIL
     re_path(r'^offer/(?P<id_offer>(\d)+)/retail/add/$',
             OfferRetailCreateView.as_view(), name='offer-retail-create-view'),
+    re_path(r'^retail/(?P<id_retail>(\d)+)/offer/add/$',
+            OfferRetailCreateView.as_view(), name='retail-offer-create-view'),
     re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/edit/$',
             OfferRetailUpdateView.as_view(), name='offer-retail-update-view'),
-    re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/remove/$',
+    re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/delete/$',
             OfferRetailDeleteView.as_view(), name='offer-retail-delete-view'),
 
     # ADMIN

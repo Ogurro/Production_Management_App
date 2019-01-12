@@ -19,6 +19,8 @@ from .forms import (
     CompanyPersonCreateForm,
     CompanyRetailCreateForm,
     CompanyOfferCreateForm,
+    OfferRetailCreateForm,
+    OfferRetailUpdateForm,
 )
 from .models import (
     Company,
@@ -77,7 +79,7 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 
     def get_success_message(self, cleaned_data):
         self.success_message = f'Logged in as {str(self.request.user).capitalize()}'
-        return self.success_message % cleaned_data
+        return super(LoginView, self).get_success_message(cleaned_data)
 
 
 # COMPANY
@@ -171,11 +173,6 @@ class CompanyPersonCreateView(CreateView):
     template_name = 'production_assist/company-person-create-view.html'
     form_class = CompanyPersonCreateForm
 
-    def get_success_url(self):
-        id_person = self.object.id
-        person = get_object_or_404(Person, id=id_person)
-        return person.get_absolute_url()
-
     def get_context_data(self, **kwargs):
         context = super(CompanyPersonCreateView, self).get_context_data()
         context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
@@ -201,11 +198,6 @@ class CompanyPersonUpdateView(UpdateView):
     def get_object(self, queryset=queryset):
         id_person = self.kwargs.get('id_person')
         return get_object_or_404(Person, id=id_person)
-
-    def get_success_url(self):
-        id_person = self.object.id
-        person = get_object_or_404(Person, id=id_person)
-        return person.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super(CompanyPersonUpdateView, self).get_context_data()
@@ -250,11 +242,6 @@ class CompanyRetailCreateView(CreateView):
     template_name = 'production_assist/company-retail-create-view.html'
     form_class = CompanyRetailCreateForm
 
-    def get_success_url(self):
-        id_retail = self.object.id
-        retail = get_object_or_404(Retail, id=id_retail)
-        return retail.get_absolute_url()
-
     def get_context_data(self, **kwargs):
         context = super(CompanyRetailCreateView, self).get_context_data()
         context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
@@ -280,11 +267,6 @@ class CompanyRetailUpdateView(UpdateView):
     def get_object(self, queryset=queryset):
         id_retail = self.kwargs.get('id_retail')
         return get_object_or_404(Retail, id=id_retail)
-
-    def get_success_url(self):
-        id_retail = self.object.id
-        retail = get_object_or_404(Retail, id=id_retail)
-        return retail.get_absolute_url()
 
     def get_context_data(self, **kwargs):
         context = super(CompanyRetailUpdateView, self).get_context_data()
@@ -336,11 +318,6 @@ class CompanyOfferCreateView(CreateView):
     template_name = 'production_assist/company-offer-create-view.html'
     form_class = CompanyOfferCreateForm
 
-    def get_success_url(self):
-        id_offer = self.object.id
-        offer = get_object_or_404(Offer, id=id_offer)
-        return offer.get_absolute_url()
-
     def get_context_data(self, **kwargs):
         context = super(CompanyOfferCreateView, self).get_context_data()
         context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
@@ -368,11 +345,6 @@ class CompanyOfferUpdateView(UpdateView):
         id_offer = self.kwargs.get('id_offer')
         return get_object_or_404(Offer, id=id_offer)
 
-    def get_success_url(self):
-        id_offer = self.object.id
-        offer = get_object_or_404(Offer, id=id_offer)
-        return offer.get_absolute_url()
-
     def get_context_data(self, **kwargs):
         context = super(CompanyOfferUpdateView, self).get_context_data()
         context['company'] = get_object_or_404(Company, id=self.kwargs.get('id_company'))
@@ -394,12 +366,76 @@ class CompanyOfferUpdateView(UpdateView):
 
 
 class OfferRetailCreateView(CreateView):
-    pass
+    template_name = 'production_assist/offer-retail-create-view.html'
+    form_class = OfferRetailCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(OfferRetailCreateView, self).get_context_data()
+        id_offer = self.kwargs.get('id_offer')
+        if id_offer:
+            obj = get_object_or_404(Offer, id=id_offer)
+            context['object'] = f'Offer: {obj}'
+        else:
+            id_retail = self.kwargs.get('id_retail')
+            obj = get_object_or_404(Retail, id=id_retail)
+            context['object'] = f'Retail: {obj}'
+        return context
+
+    def get_initial(self):
+        initial = super(OfferRetailCreateView, self).get_initial()
+        id_offer = self.kwargs.get('id_offer')
+        if id_offer:
+            initial['offer'] = get_object_or_404(Offer, id=id_offer)
+        else:
+            id_retail = self.kwargs.get('id_retail')
+            initial['retail'] = get_object_or_404(Retail, id=id_retail)
+        return initial
+
+    def form_valid(self, form):
+        offerretail = form.save()
+        messages.success(self.request, f'Added {offerretail.retail} to {offerretail.offer}')
+        return super(OfferRetailCreateView, self).form_valid(form)
 
 
 class OfferRetailUpdateView(UpdateView):
-    pass
+    template_name = 'production_assist/offer-retail-create-view.html'
+    form_class = OfferRetailUpdateForm
+    queryset = OfferRetail.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(OfferRetailUpdateView, self).get_context_data()
+        id_offer = self.kwargs.get('id_offer')
+        id_retail = self.kwargs.get('id_retail')
+        offer = get_object_or_404(Offer, id=id_offer)
+        retail = get_object_or_404(Retail, id=id_retail)
+        context['object'] = f'Offer: {offer}'
+        context['object2'] = f'Retail: {retail}'
+        return context
+
+    def get_object(self, queryset=queryset):
+        id_offer = self.kwargs.get('id_offer')
+        id_retail = self.kwargs.get('id_retail')
+        return get_object_or_404(OfferRetail, offer_id=id_offer, retail_id=id_retail)
+
+    def form_valid(self, form):
+        offerretail = form.save()
+        messages.success(self.request, f'Updated {offerretail.retail} in {offerretail.offer}')
+        return super(OfferRetailUpdateView, self).form_valid(form)
 
 
 class OfferRetailDeleteView(DeleteView):
-    pass
+    template_name = 'production_assist/offer-retail-delete-view.html'
+
+    def get_success_url(self):
+        obj = self.get_object()
+        return obj.offer.get_absolute_url()
+
+    def get_object(self, queryset=None):
+        id_offer = self.kwargs.get('id_offer')
+        id_retail = self.kwargs.get('id_retail')
+        return get_object_or_404(OfferRetail, offer_id=id_offer, retail_id=id_retail)
+
+    def delete(self, request, *args, **kwargs):
+        obj = self.get_object()
+        messages.success(request, f'Deleted {obj.retail} from {obj.offer}')
+        return super(OfferRetailDeleteView, self).delete(request, *args, **kwargs)

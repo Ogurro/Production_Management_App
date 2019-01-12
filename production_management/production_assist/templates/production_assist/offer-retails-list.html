@@ -22,6 +22,11 @@
                                        onclick="location.href='{% url 'offer-retail-update-view' obj.offer.id obj.retail.id %}'"
                                        value="Edit"/>
                             </li>
+                            <li class="list-inline-item mr-0">
+                                <input class="btn btn-danger list-inline-item" type="button"
+                                       onclick="location.href='{% url 'offer-retail-delete-view' obj.offer.id obj.retail.id %}'"
+                                       value="Remove"/>
+                            </li>
                         </ul>
                     </li>
                 </ol>

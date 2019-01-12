@@ -118,7 +118,8 @@ class OfferRetail(models.Model):
         return f'{self.offer}  {self.retail.name}'
 
     def get_absolute_url(self):
-        return reverse_lazy('offer-detail-view', kwargs={'id_offer': self.id})
+        return reverse_lazy('company-offer-detail-view',
+                            kwargs={'id_company': self.offer.company_id, 'id_offer': self.offer_id})
 
 
 class RetailInformation(models.Model):

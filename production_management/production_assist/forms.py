@@ -5,6 +5,7 @@ from .models import (
     Person,
     Retail,
     Offer,
+    OfferRetail,
 )
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y', '%d %m %Y', '%d/%m/%Y']
@@ -125,3 +126,59 @@ class CompanyOfferCreateForm(forms.ModelForm):
         super(CompanyOfferCreateForm, self).__init__(*args, **kwargs)
         company = self.initial['company']
         self.fields['person'].queryset = Person.objects.filter(company=company)
+
+
+class OfferRetailCreateForm(forms.ModelForm):
+    class Meta:
+        model = OfferRetail
+        fields = [
+            'offer',
+            'retail',
+            'quantity',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(OfferRetailCreateForm, self).__init__(*args, **kwargs)
+        if self.initial.get('offer'):
+            offer = self.initial['offer']
+            self.fields['retail'].queryset = Retail.objects.filter(
+                company_id=offer.company_id).order_by('name', 'thickness')
+            self.fields['offer'] = forms.ModelChoiceField(queryset=Offer.objects.all(), widget=forms.HiddenInput)
+        else:
+            retail = self.initial['retail']
+            self.fields['offer'].queryset = Offer.objects.filter(company_id=retail.company_id).order_by('-id')
+            self.fields['retail'] = forms.ModelChoiceField(queryset=Retail.objects.all(), widget=forms.HiddenInput)
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data['quantity']
+        regex = r'^(\d)+$'
+        if not re.fullmatch(regex, str(quantity)):
+            raise forms.ValidationError('Quantity must be positive number')
+        return quantity
+
+    def clean(self):
+        data = self.cleaned_data
+        offerretail = OfferRetail.objects.filter(offer_id=data['offer'].id, retail_id=data['retail'].id)
+        if offerretail:
+            raise forms.ValidationError(f'{data["retail"]} already in {data["offer"]}')
+        return data
+
+
+class OfferRetailUpdateForm(forms.ModelForm):
+    offer = forms.ModelChoiceField(queryset=Offer.objects.all(), widget=forms.HiddenInput)
+    retail = forms.ModelChoiceField(queryset=Retail.objects.all(), widget=forms.HiddenInput)
+
+    class Meta:
+        model = OfferRetail
+        fields = [
+            'offer',
+            'retail',
+            'quantity',
+        ]
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data['quantity']
+        regex = r'^(\d)+$'
+        if not re.fullmatch(regex, str(quantity)):
+            raise forms.ValidationError('Quantity must be positive number')
+        return quantity
