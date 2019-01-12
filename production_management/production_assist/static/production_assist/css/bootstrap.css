@@ -2016,9 +2016,8 @@ pre code {
 }
 
 .my-checkbox {
-    width: 2vw;
-    height: 2vh;
-
+    width: 20px;
+    height: 20px;
 }
 
 .form-control {

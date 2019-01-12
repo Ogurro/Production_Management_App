@@ -53,7 +53,7 @@ class Person(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
-        return reverse_lazy('person-detail-view', kwargs={'id_person': self.id})
+        return reverse_lazy('company-person-detail-view', kwargs={'id_company': self.company_id, 'id_person': self.id})
 
 
 class Material(models.Model):
@@ -86,7 +86,7 @@ class Retail(models.Model):
         return f'{self.name} #{self.thickness} {self.width}x{self.length}'
 
     def get_absolute_url(self):
-        return reverse_lazy('retail-detail-view', kwargs={'id_retail': self.id})
+        return reverse_lazy('company-retail-detail-view', kwargs={'id_company': self.company_id, 'id_retail': self.id})
 
 
 class Offer(models.Model):
@@ -106,7 +106,7 @@ class Offer(models.Model):
         return f'O-{str(self.id).zfill(6)}'
 
     def get_absolute_url(self):
-        return reverse_lazy('offer-detail-view', kwargs={'id_offer': self.id})
+        return reverse_lazy('company-offer-detail-view', kwargs={'id_company': self.company_id, 'id_offer': self.id})
 
 
 class OfferRetail(models.Model):

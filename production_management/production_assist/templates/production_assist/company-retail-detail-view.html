@@ -5,46 +5,55 @@
 {% block content %}
     <span class="h2 pull-left">Retail</span>
     <input class="btn btn-dark mb-2 d-inline" type="button"
-           onclick="location.href='{% url 'company-retail-update-view' retail.company.id retail.id %}'" value="Edit"/>
+           onclick="location.href='{% url 'company-retail-update-view' object.company.id object.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
-                onclick="location.href='{% url 'company-detail-view' retail.company.id %}'">
-            {{ retail.company }}</button>
+                onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
+            {{ object.company }}</button>
     </p>
-    {#      company section      #}
+    {#      retail section      #}
     <div class="mt-2 mb-3">
         <div class="row">
-            <div class="col-md-6">
-                <p><strong>Name: </strong>{{ retail.name }}</p>
-                <p><strong>Drawing number: </strong>{{ retail.drawing_number }}</p>
-                <p><strong>Material: </strong>{{ retail.material }}</p>
-                <p><strong>Thickness: </strong>{{ retail.thickness }}</p>
-                <p><strong>Width: </strong>{{ retail.width }}</p>
-                <p><strong>Length: </strong>{{ retail.length }}</p>
-                <p><strong>Cutting length: </strong>{{ retail.cutting_length }}</p>
-                <p><strong>Cutting time: </strong>{{ retail.cutting_time }}</p>
-                <p><strong>Price: </strong>{{ retail.price }}</p>
+            <div class="col-md-auto">
+                <p><strong>Name: </strong>{{ object.name }}</p>
+                <p><strong>Drawing number: </strong>{{ object.drawing_number }}</p>
+                <p><strong>Material: </strong>{{ object.material }}</p>
+                <p><strong>Thickness: </strong>{{ object.thickness }}</p>
+                <p><strong>Width: </strong>{{ object.width }}</p>
+                <p><strong>Length: </strong>{{ object.length }}</p>
+                <p><strong>Cutting length: </strong>{{ object.cutting_length }}</p>
+                <p><strong>Cutting time: </strong>{{ object.cutting_time }}</p>
+                <p><strong>Price: </strong>{{ object.price }}</p>
             </div>
-            <div class="col-md-6">
-                {% include 'production_assist/retail-more-info.html' %}
+            <div class="col-md-auto">
+                <strong>Description: </strong>
+                <blockquote class="blockquote">{{ object.description }}</blockquote>
+                <strong>Additional Information</strong>
+                {% for obj in object.retailinformation_set.all %}
+                    <blockquote class="blockquote">
+                        <p class="mb-0">{{ obj }}
+                            <span class="font-italic">{{ obj.create_date }}</span></p>
+                    </blockquote>
+                {% endfor %}
             </div>
         </div>
         <div class="container-fluid">
             <div class="row">
-                {#      included in offers section      #}
+                {#      in offers section      #}
                 <div class="col-md-6">
                     <button id="offers" class="btn btn-light font-weight-bold mb-3">In Offers</button>
-                    {% include 'production_assist/retail-offers-list.html' %}
+                    {% include 'production_assist/offers-additional-list.html' %}
                 </div>
                 {#      empty section      #}
                 <div class="col-md-6">
                 </div>
             </div>
         </div>
+
     </div>
 {% endblock %}
 
 {% block js %}
-    {% include 'production_assist/list-show-siblings-js.html' %}
-    {% include 'production_assist/retail-detail-js.html' %}
+    {% include 'production_assist/js-list-show-siblings.html' %}
+    {% include 'production_assist/js-show-details.html' %}
 {% endblock %}

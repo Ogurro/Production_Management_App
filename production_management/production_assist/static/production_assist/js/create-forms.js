@@ -9,13 +9,13 @@ $(document).ready(function () {
         }
         element.setAttribute('placeholder', name.replace('\_', '\ '));
     });
-    form_p_input.wrap('<div class="col-sm-10 col-lg-4 input-group-lg d-inline-flex"></div>');
+    form_p_input.wrap('<div class="col-sm-auto col-lg-auto input-group-lg d-inline-flex"></div>');
     form_p.children('label').addClass('lead font-weight-bold');
 
     // text area
     let textAreaInput = $('p textarea');
     textAreaInput.addClass('form-control');
-    textAreaInput.wrap('<div class="col-sm-10 col-lg-auto input-group-lg d-inline-flex"></div>');
+    textAreaInput.wrap('<div class="col-sm-auto col-lg-auto input-group-lg d-inline-flex"></div>');
 
     // custom checkbox
     let checkboxInput = $('p input[type="checkbox"]');

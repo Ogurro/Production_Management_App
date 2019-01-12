@@ -5,24 +5,24 @@
 {% block content %}
     <span class="h2 pull-left">Person</span>
     <input class="btn btn-dark mb-2 d-inline" type="button"
-           onclick="location.href='{% url 'company-person-update-view' person.company.id person.id %}'" value="Edit"/>
+           onclick="location.href='{% url 'company-person-update-view' object.company.id object.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
-                onclick="location.href='{% url 'company-detail-view' person.company.id %}'">
-            {{ person.company }}</button>
+                onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
+            {{ object.company }}</button>
     </p>
-    {#      company section      #}
+    {#      person section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Name: </strong>{{ person }}</p>
-        <p><strong>Position: </strong>{{ person.position }}</p>
-        <p><strong>Phone: </strong>{{ person.phone }}</p>
-        <p><strong>Email: </strong>{{ person.email }}</p>
+        <p><strong>Name: </strong>{{ object }}</p>
+        <p><strong>Position: </strong>{{ object.position }}</p>
+        <p><strong>Phone: </strong>{{ object.phone }}</p>
+        <p><strong>Email: </strong>{{ object.email }}</p>
         <div class="container-fluid">
             <div class="row">
                 {#      managed offers section      #}
                 <div class="col-md-6">
                     <button id="offers" class="btn btn-light font-weight-bold mb-3">Managed Offers</button>
-                    {% include 'production_assist/person-offers-list.html' %}
+                    {% include 'production_assist/offers-additional-list.html' %}
                 </div>
                 {#      empty section      #}
                 <div class="col-md-6">
@@ -34,6 +34,6 @@
 {% endblock %}
 
 {% block js %}
-    {% include 'production_assist/list-show-siblings-js.html' %}
-    {% include 'production_assist/person-detail-js.html' %}
+    {% include 'production_assist/js-list-show-siblings.html' %}
+    {% include 'production_assist/js-show-details.html' %}
 {% endblock %}

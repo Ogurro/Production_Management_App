@@ -28,7 +28,6 @@ class PhoneEmailValidCreateForm(forms.ModelForm):
         return email
 
 
-# COMPANY
 class CompanyCreateForm(forms.ModelForm):
     name = forms.CharField(label='Company Name')
 
@@ -56,8 +55,9 @@ class CompanyUpdateForm(PhoneEmailValidCreateForm):
         ]
 
 
-# PERSON
-class PersonCreateForm(PhoneEmailValidCreateForm):
+class CompanyPersonCreateForm(PhoneEmailValidCreateForm):
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
+
     class Meta:
         model = Person
         fields = [
@@ -70,16 +70,13 @@ class PersonCreateForm(PhoneEmailValidCreateForm):
         ]
 
 
-class CompanyPersonCreateForm(PersonCreateForm):
+class CompanyRetailCreateForm(forms.ModelForm):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
-
-
-# RETAIL
-class RetailCreateForm(forms.ModelForm):
     drawing_number = forms.CharField(required=False)
     cutting_length = forms.IntegerField(required=False)
     cutting_time = forms.IntegerField(required=False)
     price = forms.DecimalField(required=False)
+    description = forms.CharField(required=False, widget=forms.Textarea)
 
     class Meta:
         model = Retail
@@ -94,6 +91,7 @@ class RetailCreateForm(forms.ModelForm):
             'cutting_length',
             'cutting_time',
             'price',
+            'description',
         ]
 
     def clean(self):
@@ -109,26 +107,9 @@ class RetailCreateForm(forms.ModelForm):
         return data
 
 
-class CompanyRetailCreateForm(RetailCreateForm):
+class CompanyOfferCreateForm(forms.ModelForm):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
-
-
-# OFFER
-class OfferCreateForm(forms.ModelForm):
     final_date = forms.DateField(input_formats=DATE_INPUT_FORMATS)
-
-    class Meta:
-        model = Offer
-        fields = [
-            'company',
-            'status',
-            'manufacture',
-            'final_date',
-        ]
-
-
-class CompanyOfferCreateForm(OfferCreateForm):
-    company = forms.ModelChoiceField(queryset=Company.objects.all(), widget=forms.HiddenInput)
 
     class Meta:
         model = Offer

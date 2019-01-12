@@ -1,9 +1,0 @@
-{% if retail.retailinformation_set.all %}
-    <p><strong>Additional Information</strong></p>
-    {% for info in retail.retailinformation_set.all %}
-        <blockquote class="blockquote">
-            <p class="mb-0">{{ info }} <span
-                    class="font-italic font-weight-light">{{ info.create_date }}</span></p>
-        </blockquote>
-    {% endfor %}
-{% endif %}

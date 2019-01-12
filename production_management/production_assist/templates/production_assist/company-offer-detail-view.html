@@ -3,34 +3,44 @@
 {% block title %}Offer Detail{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Offers</span>
+    <span class="h2 pull-left">Offer</span>
     <input class="btn btn-dark mb-2 d-inline" type="button"
            onclick="location.href='{% url 'company-offer-update-view' offer.company.id offer.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
-                onclick="location.href='{% url 'company-detail-view' offer.company.id %}'">
-            {{ offer.company }}</button>
+                onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
+            {{ object.company }}</button>
         {% if offer.person %}
             <button type="button" class="btn btn-light font-weight-bold"
-                    onclick="location.href='{% url 'person-detail-view' offer.person.id %}'">
+                    onclick="location.href='{% url 'company-person-detail-view' object.company.id object.person.id %}'">
                 {{ offer.person }}</button>
         {% endif %}
     </p>
-    {#      retail section      #}
+    {#      offer section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Status: </strong>{{ offer.get_status_display }}</p>
-        <p><strong>Final date: </strong>{{ offer.final_date }}</p>
-        <p><strong>Created date: </strong>{{ offer.create_date }}</p>
-        <p><strong>Total Price: </strong>{{ total_price }} zł</p>
+        <div class="row">
+            <div class="col-md-auto">
+                <p><strong>Status: </strong>{{ object.get_status_display }}</p>
+                <p><strong>Final date: </strong>{{ object.final_date }}</p>
+                <p><strong>Created date: </strong>{{ object.create_date }}</p>
+                <p><strong>Total Price: </strong>{{ total_price }} zł</p>
+            </div>
+            <div class="col-md-auto">
+                <strong>Additional Information</strong>
+                {% for obj in object.offerinformation_set.all %}
+                    <p class="mb-0">{{ obj }} <span class="font-italic">{{ obj.create_date }}</span></p>
+                {% endfor %}
+            </div>
+        </div>
+        {#      retail section      #}
         <div class="container-fluid">
             <div class="row">
-                {#      retails included in offer section      #}
                 <div class="col-md-6">
                     <button id="retails" class="btn btn-light font-weight-bold mb-3">Retails</button>
-                    <button class="btn btn-dark mb-3"
-                            onclick="location.href='{% url 'offer-retail-create-view' offer.id %}'">Add
-                    </button>
-                    {% include 'production_assist/company-offer-retails-list.html' %}
+                    {#                    <button class="btn btn-dark mb-3"#}
+                    {#                            onclick="location.href='{% url 'offer-retail-create-view' offer.id %}'">Add#}
+                    {#                    </button>#}
+                    {% include 'production_assist/offer-retails-list.html' %}
                 </div>
                 {#      empty section      #}
                 <div class="col-md-6">
@@ -41,6 +51,6 @@
 {% endblock %}
 
 {% block js %}
-    {% include 'production_assist/list-show-siblings-js.html' %}
-    {% include 'production_assist/offer-detail-js.html' %}
+    {% include 'production_assist/js-list-show-siblings.html' %}
+    {% include 'production_assist/js-show-details.html' %}
 {% endblock %}
