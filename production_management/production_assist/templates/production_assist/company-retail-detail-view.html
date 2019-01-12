@@ -3,19 +3,18 @@
 {% block title %}Retail Detail{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Retail</span>
-    <input class="btn btn-dark mb-2 d-inline" type="button"
-           onclick="location.href='{% url 'company-retail-update-view' object.company.id object.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
                 onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
             {{ object.company }}</button>
     </p>
+    <span class="h2 pull-left">{{ object }}</span>
+    <input class="btn btn-dark mb-3 d-inline" type="button"
+           onclick="location.href='{% url 'company-retail-update-view' object.company.id object.id %}'" value="Edit"/>
     {#      retail section      #}
     <div class="mt-2 mb-3">
         <div class="row">
             <div class="col-md-auto">
-                <p><strong>Name: </strong>{{ object.name }}</p>
                 <p><strong>Drawing number: </strong>{{ object.drawing_number }}</p>
                 <p><strong>Material: </strong>{{ object.material }}</p>
                 <p><strong>Thickness: </strong>{{ object.thickness }}</p>

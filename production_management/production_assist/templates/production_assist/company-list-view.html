@@ -4,7 +4,7 @@
 
 {% block content %}
     <span class="h2 pull-left">Companies</span>
-    <input class="btn btn-dark mb-2 d-inline" type="button"
+    <input class="btn btn-dark mb-3 d-inline" type="button"
            onclick="location.href='{% url 'company-create-view' %}'" value="Add"/>
     {% for object in object_list %}
         <div class="mt-3 mb-3">

@@ -3,9 +3,6 @@
 {% block title %}Offer Detail{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Offer</span>
-    <input class="btn btn-dark mb-2 d-inline" type="button"
-           onclick="location.href='{% url 'company-offer-update-view' offer.company.id offer.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
                 onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
@@ -16,6 +13,9 @@
                 {{ offer.person }}</button>
         {% endif %}
     </p>
+    <span class="h2 pull-left">{{ object }}</span>
+    <input class="btn btn-dark mb-3 d-inline" type="button"
+           onclick="location.href='{% url 'company-offer-update-view' offer.company.id offer.id %}'" value="Edit"/>
     {#      offer section      #}
     <div class="mt-2 mb-3">
         <div class="row">

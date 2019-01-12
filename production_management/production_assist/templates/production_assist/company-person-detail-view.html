@@ -3,17 +3,16 @@
 {% block title %}Person Detail{% endblock %}
 
 {% block content %}
-    <span class="h2 pull-left">Person</span>
-    <input class="btn btn-dark mb-2 d-inline" type="button"
-           onclick="location.href='{% url 'company-person-update-view' object.company.id object.id %}'" value="Edit"/>
     <p class="h4 mt-3 ml-0 mb-3">
         <button type="button" class="btn btn-light font-weight-bold"
                 onclick="location.href='{% url 'company-detail-view' object.company.id %}'">
             {{ object.company }}</button>
     </p>
+    <span class="h2 pull-left">{{ object }}</span>
+    <input class="btn btn-dark mb-3 d-inline" type="button"
+           onclick="location.href='{% url 'company-person-update-view' object.company.id object.id %}'" value="Edit"/>
     {#      person section      #}
     <div class="mt-2 mb-3">
-        <p><strong>Name: </strong>{{ object }}</p>
         <p><strong>Position: </strong>{{ object.position }}</p>
         <p><strong>Phone: </strong>{{ object.phone }}</p>
         <p><strong>Email: </strong>{{ object.email }}</p>
