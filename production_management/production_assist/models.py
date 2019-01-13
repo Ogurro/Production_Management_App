@@ -18,11 +18,10 @@ OFFER_STATUS = (
 class CompanyModelManager(models.Manager):
     def search(self, name=None, email=None, phone=None, address=None):
         queryset = self.get_queryset()
-        queryset = queryset.filter(Q(name__icontains=name) if name else Q() |
-                                   Q(companydetails__email__icontains=email) if email else Q() |
-                                   Q(companydetails__phone__icontains=phone) if phone else Q() |
-                                   Q(companydetails__address__icontains=address) if address else Q()
-                                   )
+        queryset = queryset.filter(Q(name__icontains=name)) if name else queryset
+        queryset = queryset.filter(Q(companydetails__email__icontains=email)) if email else queryset
+        queryset = queryset.filter(Q(companydetails__phone__icontains=phone)) if phone else queryset
+        queryset = queryset.filter(Q(companydetails__address__icontains=address)) if address else queryset
         return queryset.distinct()
 
 

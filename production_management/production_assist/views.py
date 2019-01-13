@@ -90,12 +90,12 @@ class CompanyListView(PaginatedListView):
     paginate_by = 10
 
     def get_queryset(self):
+        if not self.request.GET:
+            return Company.objects.all()
         name = self.request.GET.get('name') if self.request.GET.get('name') != '' else None
         email = self.request.GET.get('email') if self.request.GET.get('email') != '' else None
         phone = self.request.GET.get('phone') if self.request.GET.get('phone') != '' else None
         address = self.request.GET.get('address') if self.request.GET.get('address') != '' else None
-        print(type(phone))
-        print(address)
         return Company.objects.search(name=name, email=email, phone=phone, address=address)
 
     def get_context_data(self, *, object_list=None, **kwargs):
