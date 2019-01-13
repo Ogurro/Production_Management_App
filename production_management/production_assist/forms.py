@@ -11,6 +11,7 @@ from .models import (
 DATE_INPUT_FORMATS = ['%d-%m-%Y', '%d %m %Y', '%d/%m/%Y']
 
 
+# model forms
 class PhoneEmailValidCreateForm(forms.ModelForm):
     def clean_phone(self):
         phone = self.cleaned_data['phone']
@@ -182,3 +183,19 @@ class OfferRetailUpdateForm(forms.ModelForm):
         if not re.fullmatch(regex, str(quantity)):
             raise forms.ValidationError('Quantity must be positive number')
         return quantity
+
+
+# search forms
+class CompanySearchForm(forms.Form):
+    name = forms.CharField(required=False)
+    email = forms.CharField(required=False)
+    phone = forms.CharField(required=False)
+    address = forms.CharField(required=False)
+
+    class Meta:
+        fields = [
+            'name',
+            'email',
+            'phone',
+            'address',
+        ]

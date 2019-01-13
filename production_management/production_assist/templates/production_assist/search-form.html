@@ -1,0 +1,10 @@
+<div class="container-fluid mt-2 mb-3">
+    <button type="button" id="show-search" class="btn btn-success mb-3 d-inline">Show Search</button>
+    <form action="." method="get" class="">
+        {{ search_form.as_p }}
+        <div class="">
+            <input type="submit" id="search" class="btn btn-dark d-inline" name="search" value="Search"/>
+            <input type="button" id="clear" class="btn btn-secondary d-inline" value="Clear"/>
+        </div>
+    </form>
+</div>

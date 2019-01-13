@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 OFFER_STATUS = (
     (-1, 'Reclamation'),
@@ -14,8 +15,21 @@ OFFER_STATUS = (
 )
 
 
+class CompanyModelManager(models.Manager):
+    def search(self, name=None, email=None, phone=None, address=None):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(Q(name__icontains=name) if name else Q() |
+                                   Q(companydetails__email__icontains=email) if email else Q() |
+                                   Q(companydetails__phone__icontains=phone) if phone else Q() |
+                                   Q(companydetails__address__icontains=address) if address else Q()
+                                   )
+        return queryset.distinct()
+
+
 class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    objects = CompanyModelManager()
 
     class Meta:
         ordering = ['name', ]

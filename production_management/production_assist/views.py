@@ -5,6 +5,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
+from django.views.generic.edit import FormMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -21,6 +22,7 @@ from .forms import (
     CompanyOfferCreateForm,
     OfferRetailCreateForm,
     OfferRetailUpdateForm,
+    CompanySearchForm,
 )
 from .models import (
     Company,
@@ -85,8 +87,22 @@ class LoginView(SuccessMessageMixin, auth_views.LoginView):
 # COMPANY
 class CompanyListView(PaginatedListView):
     template_name = 'production_assist/company-list-view.html'
-    queryset = Company.objects.all()
     paginate_by = 10
+
+    def get_queryset(self):
+        name = self.request.GET.get('name') if self.request.GET.get('name') != '' else None
+        email = self.request.GET.get('email') if self.request.GET.get('email') != '' else None
+        phone = self.request.GET.get('phone') if self.request.GET.get('phone') != '' else None
+        address = self.request.GET.get('address') if self.request.GET.get('address') != '' else None
+        print(type(phone))
+        print(address)
+        return Company.objects.search(name=name, email=email, phone=phone, address=address)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(CompanyListView, self).get_context_data()
+        search_form = CompanySearchForm(self.request.GET or None)
+        context['search_form'] = search_form
+        return context
 
 
 class CompanyDetailView(DetailView):

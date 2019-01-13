@@ -15,6 +15,10 @@
     <div class="container mt-3">
         {% include 'production_assist/messages.html' %}
 
+        {% if search_form %}
+            {% include 'production_assist/search-form.html' %}
+        {% endif %}
+
         {% block content %}
             <h2>Production Management Assist</h2>
             <p>App under development</p>
@@ -31,6 +35,9 @@
 <script src="{% static "production_assist/js/bootstrap.js" %}"></script>
 {% block js %}
 {% endblock %}
+{% if search_form %}
+    {% include 'production_assist/js-search-form.html' %}
+{% endif %}
 
 {% include 'production_assist/footer.html' %}
 </body>
