@@ -26,6 +26,7 @@ from production_assist.views import (
     OfferListView,
     CompanyOfferListView, CompanyOfferDetailView, CompanyOfferCreateView, CompanyOfferUpdateView,
     OfferRetailCreateView, OfferRetailUpdateView, OfferRetailDeleteView,
+    MaterialListView, MaterialCreateView, MaterialUpdateView,
 )
 
 if settings.DEBUG:
@@ -81,6 +82,11 @@ urlpatterns = [
             OfferRetailUpdateView.as_view(), name='offer-retail-update-view'),
     re_path(r'^offer/(?P<id_offer>(\d)+)/retail/(?P<id_retail>(\d)+)/delete/$',
             OfferRetailDeleteView.as_view(), name='offer-retail-delete-view'),
+
+    # MATERIAL
+    re_path(r'^material/$', MaterialListView.as_view(), name='material-list-view'),
+    re_path(r'^material/add/$', MaterialCreateView.as_view(), name='material-create-view'),
+    re_path(r'^material/(?P<id_material>(\d)+)/edit/$', MaterialUpdateView.as_view(), name='material-update-view'),
 
     # ADMIN
     re_path(r'^login/$', LoginView.as_view(), name='login-view'),

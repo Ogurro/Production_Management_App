@@ -1,11 +1,11 @@
 from datetime import date, datetime, timedelta
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic.edit import FormMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -23,6 +23,7 @@ from .forms import (
     OfferRetailCreateForm,
     OfferRetailUpdateForm,
     CompanySearchForm,
+    MaterialCreateForm,
 )
 from .models import (
     Company,
@@ -31,6 +32,7 @@ from .models import (
     Retail,
     Offer,
     OfferRetail,
+    Material,
 )
 
 
@@ -455,3 +457,30 @@ class OfferRetailDeleteView(DeleteView):
         obj = self.get_object()
         messages.success(request, f'Deleted {obj.retail} from {obj.offer}')
         return super(OfferRetailDeleteView, self).delete(request, *args, **kwargs)
+
+
+class MaterialListView(PaginatedListView):
+    template_name = 'production_assist/material-list-view.html'
+    queryset = Material.objects.all()
+    paginate_by = 10
+
+
+class MaterialCreateView(CreateView):
+    template_name = 'production_assist/material-create-view.html'
+    form_class = MaterialCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('material-list-view')
+
+
+class MaterialUpdateView(UpdateView):
+    template_name = 'production_assist/material-create-view.html'
+    form_class = MaterialCreateForm
+    queryset = Material.objects.all()
+
+    def get_object(self, queryset=queryset):
+        id_material = self.kwargs.get('id_material')
+        return get_object_or_404(Material, id=id_material)
+
+    def get_success_url(self):
+        return reverse_lazy('material-list-view')

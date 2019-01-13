@@ -127,6 +127,9 @@ class OfferRetail(models.Model):
     retail = models.ForeignKey(Retail, on_delete=models.PROTECT)
     quantity = models.IntegerField(default=1)
 
+    class Meta:
+        unique_together = (('offer', 'retail'),)
+
     def __str__(self):
         return f'{self.offer}  {self.retail.name}'
 

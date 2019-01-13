@@ -6,6 +6,7 @@ from .models import (
     Retail,
     Offer,
     OfferRetail,
+    Material,
 )
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y', '%d %m %Y', '%d/%m/%Y']
@@ -183,6 +184,20 @@ class OfferRetailUpdateForm(forms.ModelForm):
         if not re.fullmatch(regex, str(quantity)):
             raise forms.ValidationError('Quantity must be positive number')
         return quantity
+
+
+class MaterialCreateForm(forms.ModelForm):
+    class Meta:
+        model = Material
+        fields = [
+            'type',
+        ]
+
+    def clean_type(self):
+        mat = self.cleaned_data['type']
+        if not re.fullmatch(r'^[ a-zA-Z]+$', mat):
+            raise forms.ValidationError('Wrong signs!!')
+        return mat
 
 
 # search forms

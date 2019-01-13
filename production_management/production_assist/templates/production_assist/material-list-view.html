@@ -1,0 +1,28 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}Material List{% endblock %}
+
+{% block content %}
+    <span class="h2 pull-left">Materials</span>
+    <input class="btn btn-dark mb-3 d-inline" type="button"
+           onclick="location.href='{% url 'material-create-view' %}'" value="Add"/>
+    {% for object in object_list %}
+        <div class="mt-3 mb-3">
+            <ol class="list-unstyled list-group list-group-flush col-lg-5 list-">
+                <li class="list-group-item"><strong>{{ object.type }}</strong></li>
+                <li class="ml-0">
+                    <ul class="list-inline">
+                        <li class="list-inline-item mr-0">
+                            <input class="btn btn-dark list-inline-item" type="button"
+                                   onclick="location.href='{% url 'material-update-view' object.id %}'"
+                                   value="Edit"/>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'production_assist/base.html' %}
+
+{% block title %}{% if 'edit' in request.path %}
+        Edit
+    {% else %}
+        Create
+    {% endif %} Material{% endblock %}
+
+{% block content %}
+    <h2>{% if 'edit' in request.path %}
+        Edit
+    {% else %}
+        Create
+    {% endif %} Material</h2>
+    <div class="mt-2 mb-3">
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark d-inline" name="save" value="save">Save</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {% include 'production_assist/js-create-form.html' %}
+{% endblock %}
