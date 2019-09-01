@@ -37,8 +37,8 @@ $(document).ready(function () {
     // clear button
     let clearButton = $('input#clear');
     clearButton.on('click', function () {
-        formPInput.attr('value',formPInput.val());
+        formPInput.attr('value', formPInput.val());
         formPInput.val('');
-        formPInput.attr('value','');
+        formPInput.attr('value', '');
     });
 });

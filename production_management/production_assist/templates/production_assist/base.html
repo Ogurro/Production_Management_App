@@ -11,8 +11,7 @@
 <div class="container-fluid">
     {% include 'production_assist/navbar.html' %}
 
-
-    <div class="container mt-3">
+    <div class="main-content">
         {% include 'production_assist/messages.html' %}
 
         {% if search_form %}
@@ -24,10 +23,10 @@
             <p>App under development</p>
         {% endblock %}
 
-        {#    pagination section    #}
-        {% if is_paginated %}
-            {% include 'production_assist/pagination.html' %}
-        {% endif %}
+    {#    pagination section    #}
+    {% if is_paginated %}
+        {% include 'production_assist/pagination.html' %}
+    {% endif %}
     </div>
 </div>
 

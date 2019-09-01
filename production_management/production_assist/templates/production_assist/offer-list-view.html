@@ -13,9 +13,9 @@
     {% endif %}
     {% for object in object_list %}
         <div class="mt-3 mb-3">
-            <ol class="list-unstyled list-group list-group-flush col-lg-7 list-">
+            <ol class="list-unstyled list-group list-group-flush col-lg-7">
                 <li class="list-group-item"><strong>{{ object }} - {{ object.company }}</strong></li>
-                <li class="list-group-item ml-4 d-none disabled">
+                <li class="list-group-item ml-4 d-none disabled status">
                     <strong>Status: </strong>{{ object.get_status_display }}</li>
                 <li class="list-group-item ml-4 d-none disabled">
                     <strong>Final date: </strong>{{ object.final_date }}</li>

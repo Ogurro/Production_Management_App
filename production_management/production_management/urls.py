@@ -17,7 +17,8 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import re_path, path, include
 from production_assist.views import (
-    HomeView, LoginView, LogoutView,
+    HomeView,
+    # LoginView, LogoutView,
     CompanyListView, CompanyDetailView, CompanyCreateView, CompanyUpdateView,
     PersonListView,
     CompanyPersonListView, CompanyPersonDetailView, CompanyPersonCreateView, CompanyPersonUpdateView,
@@ -89,8 +90,8 @@ urlpatterns = [
     re_path(r'^material/(?P<id_material>(\d)+)/edit/$', MaterialUpdateView.as_view(), name='material-update-view'),
 
     # ADMIN
-    re_path(r'^login/$', LoginView.as_view(), name='login-view'),
-    re_path(r'^logout/$', LogoutView.as_view(), name='logout-view'),
+    # re_path(r'^login/$', LoginView.as_view(), name='login-view'),
+    # re_path(r'^logout/$', LogoutView.as_view(), name='logout-view'),
     re_path(r'^admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
 ]

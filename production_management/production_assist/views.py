@@ -68,22 +68,22 @@ class HomeView(View):
         return render(request, 'production_assist/base.html')
 
 
-class LogoutView(auth_views.LogoutView):
-    def make_success_message(self):
-        messages.success(self.request, f'{str(self.request.user).capitalize()} is logged out')
-        return True
-
-    def dispatch(self, request, *args, **kwargs):
-        self.make_success_message()
-        return super().dispatch(request, *args, **kwargs)
-
-
-class LoginView(SuccessMessageMixin, auth_views.LoginView):
-    template_name = 'production_assist/login-view.html'
-
-    def get_success_message(self, cleaned_data):
-        self.success_message = f'Logged in as {str(self.request.user).capitalize()}'
-        return super(LoginView, self).get_success_message(cleaned_data)
+# class LogoutView(auth_views.LogoutView):
+#     def make_success_message(self):
+#         messages.success(self.request, f'{str(self.request.user).capitalize()} is logged out')
+#         return True
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         self.make_success_message()
+#         return super().dispatch(request, *args, **kwargs)
+#
+#
+# class LoginView(SuccessMessageMixin, auth_views.LoginView):
+#     template_name = 'production_assist/login-view.html'
+#
+#     def get_success_message(self, cleaned_data):
+#         self.success_message = f'Logged in as {str(self.request.user).capitalize()}'
+#         return super(LoginView, self).get_success_message(cleaned_data)
 
 
 # COMPANY

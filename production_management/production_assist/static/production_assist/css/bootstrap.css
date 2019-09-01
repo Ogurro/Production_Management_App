@@ -63,6 +63,15 @@ body {
     background-color: #F5F5F5;
 }
 
+div.main-content {
+    padding-top: 45px;
+}
+@media (max-width: 645px) {
+  div.main-content {
+    padding-top: 85px;
+  }
+}
+
 [tabindex="-1"]:focus {
     outline: 0 !important;
 }
