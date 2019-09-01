@@ -214,3 +214,22 @@ class CompanySearchForm(forms.Form):
             'phone',
             'address',
         ]
+
+
+class PersonSearchForm(forms.Form):
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    company = forms.CharField(required=False)
+    email = forms.CharField(required=False)
+    phone = forms.CharField(required=False)
+    position = forms.CharField(required=False)
+
+    class Meta:
+        fields = [
+            'first_name',
+            'last_name',
+            'company',
+            'email',
+            'phone',
+            'position',
+        ]

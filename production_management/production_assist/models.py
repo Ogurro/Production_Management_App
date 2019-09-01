@@ -15,6 +15,7 @@ OFFER_STATUS = (
 )
 
 
+# noinspection DuplicatedCode
 class CompanyModelManager(models.Manager):
     def search(self, name=None, email=None, phone=None, address=None):
         queryset = self.get_queryset()
@@ -51,6 +52,19 @@ class CompanyDetails(models.Model):
         return f'{self.company.name}: {self.address}'
 
 
+# noinspection DuplicatedCode
+class PersonModelManager(models.Manager):
+    def search(self, first_name=None, last_name=None, company=None, email=None, phone=None, position=None):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(Q(first_name__icontains=first_name)) if first_name else queryset
+        queryset = queryset.filter(Q(last_name__icontains=last_name)) if last_name else queryset
+        queryset = queryset.filter(Q(company__name__icontains=company)) if company else queryset
+        queryset = queryset.filter(Q(phone__icontains=phone)) if phone else queryset
+        queryset = queryset.filter(Q(email__icontains=email)) if email else queryset
+        queryset = queryset.filter(Q(position__icontains=position)) if position else queryset
+        return queryset.distinct()
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -58,6 +72,8 @@ class Person(models.Model):
     phone = models.CharField(max_length=32, blank=True, default='')
     email = models.EmailField(blank=True, default='')
     position = models.CharField(max_length=255, blank=True, default='')
+
+    objects = PersonModelManager()
 
     class Meta:
         ordering = ['last_name', 'company']

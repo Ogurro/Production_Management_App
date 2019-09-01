@@ -22,8 +22,9 @@ from .forms import (
     CompanyOfferCreateForm,
     OfferRetailCreateForm,
     OfferRetailUpdateForm,
-    CompanySearchForm,
     MaterialCreateForm,
+    CompanySearchForm,
+    PersonSearchForm,
 )
 from .models import (
     Company,
@@ -168,8 +169,25 @@ class CompanyUpdateView(UpdateView):
 # PERSON
 class PersonListView(PaginatedListView):
     template_name = 'production_assist/person-list-view.html'
-    queryset = Person.objects.all()
     paginate_by = 10
+
+    def get_queryset(self):
+        if not self.request.GET:
+            return Person.objects.all()
+        first_name = self.request.GET.get('first_name') if self.request.GET.get('first_name') != '' else None
+        last_name = self.request.GET.get('last_name') if self.request.GET.get('last_name') != '' else None
+        company = self.request.GET.get('company') if self.request.GET.get('company') != '' else None
+        phone = self.request.GET.get('phone') if self.request.GET.get('phone') != '' else None
+        email = self.request.GET.get('email') if self.request.GET.get('email') != '' else None
+        position = self.request.GET.get('position') if self.request.GET.get('position') != '' else None
+        return Person.objects.search(first_name=first_name, last_name=last_name, company=company, phone=phone,
+                                     email=email, position=position)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PersonListView, self).get_context_data()
+        search_form = PersonSearchForm(self.request.GET or None)
+        context['search_form'] = search_form
+        return context
 
 
 class CompanyPersonListView(PersonListView):
