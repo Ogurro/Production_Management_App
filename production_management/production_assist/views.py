@@ -195,6 +195,9 @@ class CompanyPersonListView(PersonListView):
         id_company = self.kwargs.get('id_company')
         return Person.objects.filter(Q(company_id__exact=id_company))
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        return super(PersonListView, self).get_context_data()
+
 
 class CompanyPersonDetailView(DetailView):
     template_name = 'production_assist/company-person-detail-view.html'
