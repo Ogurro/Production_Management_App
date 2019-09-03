@@ -20,13 +20,50 @@
 
         {% block content %}
             <h2>Production Management Assist</h2>
-            <p>App under development</p>
+            <p>Application purpose is to show essential skills in programming.</p>
+            <p class="lead"><strong>Used technologies:</strong>
+                Django, Python, jQuery, HTML5, CSS (Bootstrap), PostgreSQL</p>
+            <p>Application contains basic tools to manage flow of information within manufacturing company.<br>
+                This includes information about cooperating companies with personnel contact data, offers and retails
+                that cooperating companies ordered previously.
+            </p>
+            <div class="container-fluid p-2">
+                <div class="row p-2">
+                    <div class="col-sm p-0">
+                        <p class="lead">Custom made pagination NavBar</p>
+                        <p>For custom pagination I have created new View based on generic ListView.<br>
+                            In PaginatedListView function <strong>get_context_data()</strong> get extended by new
+                            variable
+                            <strong>page_range</strong> that is used later on if page is paginated.<br>
+                            When page is paginated additional template is loaded which determine
+                            formatting of pagination NavBar.
+                        </p>
+                        <img src="{% static 'img/pagination_navbar_1.png' %}" class="img-fluid">
+                        <img src="{% static 'img/pagination_navbar_2.png' %}" class="img-fluid">
+                        <img src="{% static 'img/pagination_navbar_3.png' %}" class="img-fluid">
+
+                        <p class="lead mt-4">Custom functions in Model.Manager</p>
+                        <p>Standard Model.Manager for Company model and Person Model is upgraded with custom
+                            function <strong>search</strong> for easy filtering data on Company/Person List View.
+                        </p>
+                        > views.py
+                        <img src="{% static 'img/views_get_query_set.png' %}" class="img-fluid">
+                        > models.py
+                        <img src="{% static 'img/models_manager_model.png' %}" class="img-fluid">
+                    </div>
+                    <div class="col-sm pr-0 pl-3">
+                        <p class="lead">Database relations</p>
+                        <img src="{% static 'img/db_relations.png' %}" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
         {% endblock %}
 
-    {#    pagination section    #}
-    {% if is_paginated %}
-        {% include 'production_assist/pagination.html' %}
-    {% endif %}
+        {#    pagination section    #}
+        {% if is_paginated %}
+            {% include 'production_assist/pagination.html' %}
+        {% endif %}
     </div>
 </div>
 
