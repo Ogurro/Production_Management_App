@@ -5,7 +5,7 @@
 {% block content %}
     <span class="h2 pull-left">Retails</span>
     {% if 'company' in request.path %}
-    <p class="h4 mt-3 ml-0 mb-3">
+    <p class="h4 mt-3 ml-0 mb-3 d-inline">
         <button type="button" class="btn btn-light font-weight-bold"
                 onclick="location.href='{% url 'company-detail-view' object_list.0.company.id %}'">
             {{ object_list.0.company }}</button>
