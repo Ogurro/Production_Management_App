@@ -19,10 +19,10 @@ OFFER_STATUS = (
 class CompanyModelManager(models.Manager):
     def search(self, name=None, email=None, phone=None, address=None):
         queryset = self.get_queryset()
-        queryset = queryset.filter(Q(name__icontains=name)) if name else queryset
-        queryset = queryset.filter(Q(companydetails__email__icontains=email)) if email else queryset
-        queryset = queryset.filter(Q(companydetails__phone__icontains=phone)) if phone else queryset
-        queryset = queryset.filter(Q(companydetails__address__icontains=address)) if address else queryset
+        queryset = queryset.filter(Q(name__icontains=name,
+                                     companydetails__email__icontains=email,
+                                     companydetails__phone__icontains=phone,
+                                     companydetails__address__icontains=address))
         return queryset.distinct()
 
 
@@ -56,12 +56,13 @@ class CompanyDetails(models.Model):
 class PersonModelManager(models.Manager):
     def search(self, first_name=None, last_name=None, company=None, email=None, phone=None, position=None):
         queryset = self.get_queryset()
-        queryset = queryset.filter(Q(first_name__icontains=first_name)) if first_name else queryset
-        queryset = queryset.filter(Q(last_name__icontains=last_name)) if last_name else queryset
-        queryset = queryset.filter(Q(company__name__icontains=company)) if company else queryset
-        queryset = queryset.filter(Q(phone__icontains=phone)) if phone else queryset
-        queryset = queryset.filter(Q(email__icontains=email)) if email else queryset
-        queryset = queryset.filter(Q(position__icontains=position)) if position else queryset
+        queryset = queryset.filter(Q(first_name__icontains=first_name,
+                                     last_name__icontains=last_name,
+                                     company__name__icontains=company,
+                                     phone__icontains=phone,
+                                     email__icontains=email,
+                                     position__icontains=position
+                                     ))
         return queryset.distinct()
 
 

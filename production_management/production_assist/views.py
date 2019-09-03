@@ -95,10 +95,10 @@ class CompanyListView(PaginatedListView):
     def get_queryset(self):
         if not self.request.GET:
             return Company.objects.all()
-        name = self.request.GET.get('name') if self.request.GET.get('name') != '' else None
-        email = self.request.GET.get('email') if self.request.GET.get('email') != '' else None
-        phone = self.request.GET.get('phone') if self.request.GET.get('phone') != '' else None
-        address = self.request.GET.get('address') if self.request.GET.get('address') != '' else None
+        name = self.request.GET.get('name') or ''
+        email = self.request.GET.get('email') or ''
+        phone = self.request.GET.get('phone') or ''
+        address = self.request.GET.get('address') or ''
         return Company.objects.search(name=name, email=email, phone=phone, address=address)
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -174,12 +174,12 @@ class PersonListView(PaginatedListView):
     def get_queryset(self):
         if not self.request.GET:
             return Person.objects.all()
-        first_name = self.request.GET.get('first_name') if self.request.GET.get('first_name') != '' else None
-        last_name = self.request.GET.get('last_name') if self.request.GET.get('last_name') != '' else None
-        company = self.request.GET.get('company') if self.request.GET.get('company') != '' else None
-        phone = self.request.GET.get('phone') if self.request.GET.get('phone') != '' else None
-        email = self.request.GET.get('email') if self.request.GET.get('email') != '' else None
-        position = self.request.GET.get('position') if self.request.GET.get('position') != '' else None
+        first_name = self.request.GET.get('first_name') or ''
+        last_name = self.request.GET.get('last_name') or ''
+        company = self.request.GET.get('company') or ''
+        phone = self.request.GET.get('phone') or ''
+        email = self.request.GET.get('email') or ''
+        position = self.request.GET.get('position') or ''
         return Person.objects.search(first_name=first_name, last_name=last_name, company=company, phone=phone,
                                      email=email, position=position)
 
