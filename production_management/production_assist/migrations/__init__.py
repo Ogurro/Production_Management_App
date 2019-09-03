@@ -136,6 +136,7 @@ def add_info_fields():
 
 
 def populate(*args, **kwargs):
+    print('Populating Database')
     materials()
     companies()
     companies_details()
